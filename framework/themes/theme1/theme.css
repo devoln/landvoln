@@ -57,11 +57,11 @@
 	--lw-price-size: 20px;
 	--lw-pricing-title-size: 24px;
 
-	--lw-header-bg-main: #b0c5d7;
-	--lw-banner-bg-main: #c7d8b6;
-
 	--lw-header-image: url(../../assets/images/headers/68350739.jpg);
 }
+
+lw-header { --lw-header-bg: #b0c5d7; }
+lw-banner { --lw-banner-bg: #c7d8b6; }
 
 body {
 	background-image: url(../../../assets/images/backgrounds/26.webp);

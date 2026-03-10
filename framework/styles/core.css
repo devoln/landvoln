@@ -24,7 +24,6 @@ h1, h2, h3 {
 	color: var(--lw-color-text);
 }
 
-.lw-section h2,
 lw-section h2 {
 	text-align: center;
 	color: var(--lw-color-brand-text, #5d755d);
@@ -53,7 +52,6 @@ lw-section h2 {
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 
-.lw-page,
 lw-page {
 	min-height: 100dvh;
 	padding: var(--lw-page-padding, 16px);
@@ -62,10 +60,8 @@ lw-page {
 	justify-items: center;
 }
 
-.lw-page > lw-section,
 lw-page > lw-section { margin-top: var(--lw-section-gap, 12px); }
 
-.lw-section,
 lw-section {
 	margin: 0 auto;
 	max-width: var(--lw-page-width, 520px);
@@ -74,18 +70,9 @@ lw-section {
 	border-radius: 0;
 	background: transparent;
 	box-shadow: none;
-}
-
-.lw-section__container {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--lw-gap, 12px);
 }
 
-lw-section:not(.lw-section) {
-	display: grid;
-	gap: var(--lw-gap, 12px);
-}
-
-.lw-section__container > :not(.lw-feature-list):not(.lw-buttons):not(.lw-carousel) { text-align: center; }
-
-lw-section:not(.lw-section) > :not(lw-feature-list):not(lw-buttons):not(lw-carousel) { text-align: center; }
+lw-section > :not(lw-feature-list):not(lw-buttons):not(lw-carousel) { text-align: center; }

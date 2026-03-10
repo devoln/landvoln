@@ -22,23 +22,6 @@ const resetScrollX = () => {
 	window.scrollTo({ left: 0, top: window.scrollY, behavior: 'instant' });
 };
 
-class LwDivider extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-divider');
-		if(this.querySelector(':scope > .lw-divider__icon') &&
-			this.querySelector(':scope > .lw-divider__line')) return;
-		const left = document.createElement('div');
-		left.className = 'lw-divider__line is-left';
-		const icon = document.createElement('div');
-		icon.className = 'lw-divider__icon';
-		icon.textContent = '';
-		const right = document.createElement('div');
-		right.className = 'lw-divider__line is-right';
-		this.replaceChildren(left, icon, right);
-	}
-}
 
 class LwCarousel extends HTMLElement
 {
@@ -65,6 +48,11 @@ class LwCarousel extends HTMLElement
 		for(const slide of slides)
 		{
 			slide.classList.add('lw-carousel__slide');
+			for(const img of slide.querySelectorAll('img'))
+			{
+				img.draggable = false;
+				img.addEventListener('dragstart', (e) => e.preventDefault());
+			}
 			track.append(slide);
 		}
 
@@ -122,6 +110,7 @@ class LwCarousel extends HTMLElement
 		};
 		this.#onPointerDown = (e) => {
 			if(e.button !== undefined && e.button !== 0) return;
+			e.preventDefault();
 			isDown = true;
 			startX = e.clientX;
 			startScrollLeft = this.#scrollEl.scrollLeft;
@@ -205,14 +194,4 @@ class LwCarousel extends HTMLElement
 	}
 }
 
-class LwSlide extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-slide');
-	}
-}
-
-customElements.define('lw-divider', LwDivider);
 customElements.define('lw-carousel', LwCarousel);
-customElements.define('lw-slide', LwSlide);
