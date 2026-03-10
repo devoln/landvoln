@@ -1,0 +1,62 @@
+:root {
+	--lw-color-bg: transparent;
+	--lw-color-surface: transparent;
+	--lw-color-text: #141d1f;
+	--lw-color-accent: #fab005;
+	--lw-color-brand-surface: #ffffff;
+	--lw-color-brand-text: #5d755d;
+	--lw-color-slogan: #e67700;
+
+	--lw-shadow: none;
+
+	--lw-font-body: 'Roboto', Helvetica, Arial, sans-serif;
+	--lw-font-accent: 'Oswald', sans-serif;
+	--lw-font-weight: 400;
+	--lw-font-weight-bold: 700;
+	--lw-heading-weight: 200;
+	--lw-heading-weight-bold: 400;
+
+	--lw-page-width: 792px;
+	--lw-page-padding: 0px;
+	--lw-page-gap: 0px;
+	--lw-section-gap: 12px;
+	--lw-section-pad-x: 0px;
+	--lw-section-pad-y: 0px;
+	--lw-section-radius: 0px;
+	--lw-gap: 10px;
+
+	--lw-link-radius: 40px;
+	--lw-link-border-width: 2px;
+
+	--lw-divider-line: rgba(93,117,93,0.35);
+	--lw-divider-stroke: rgba(93,117,93,0.7);
+
+	--lw-carousel-pad-x: 50px;
+	--lw-carousel-pad-bottom: 18px;
+	--lw-carousel-dots-mb: 16px;
+	--lw-carousel-arrow-inset: 12px;
+	--lw-carousel-arrow-bg: rgba(93,117,93,0.9);
+	--lw-carousel-arrow-fg: #fff;
+
+	--lw-feature-icon-color: rgba(93,117,93,1);
+
+	--lw-grid-icon-bg: #f76707;
+	--lw-grid-icon-fg: #fff;
+
+	--lw-button-blue-bg: #6075c9;
+	--lw-button-blue-fg: #fff;
+	--lw-button-whatsapp-bg: #55cd6c;
+	--lw-button-whatsapp-fg: #fff;
+	--lw-button-telegram-bg: #61a8de;
+	--lw-button-telegram-fg: #fff;
+
+	--lw-card-bg: #E9DFDA;
+	--lw-price-size: 20px;
+	--lw-pricing-title-size: 24px;
+
+	--lw-header-image: url(../../../assets/images/headers/68350739.jpg);
+}
+
+body {
+	background-image: url(../../../assets/images/backgrounds/26.webp);
+}
