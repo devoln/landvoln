@@ -22,105 +22,6 @@ const resetScrollX = () => {
 	window.scrollTo({ left: 0, top: window.scrollY, behavior: 'instant' });
 };
 
-class LwPage extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-page');
-	}
-}
-
-class LwHeader extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-header');
-		const bg = this.getAttribute('bg');
-		if(bg && !this.style.getPropertyValue('--lw-header-bg'))
-			this.style.setProperty('--lw-header-bg', bg);
-		if(this.querySelector(':scope > .lw-header__inner')) return;
-		const inner = document.createElement('div');
-		inner.className = 'lw-header__inner';
-		while(this.firstChild)
-			inner.append(this.firstChild);
-		this.append(inner);
-	}
-}
-
-class LwBanner extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-banner');
-		const bg = this.getAttribute('bg');
-		if(bg && !this.style.getPropertyValue('--lw-banner-bg')) this.style.setProperty('--lw-banner-bg', bg);
-		if(this.querySelector(':scope > .lw-banner__inner')) return;
-		const inner = document.createElement('div');
-		inner.className = 'lw-banner__inner';
-		while(this.firstChild)
-			inner.append(this.firstChild);
-		this.append(inner);
-	}
-}
-
-class LwSection extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-section');
-		if(this.querySelector(':scope > .lw-section__container')) return;
-		const container = document.createElement('div');
-		container.className = 'lw-section__container';
-		while(this.firstChild)
-			container.append(this.firstChild);
-		this.append(container);
-	}
-}
-
-class LwAvatar extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-avatar');
-		if(this.querySelector(':scope > img')) return;
-		const img = document.createElement('img');
-		img.src = this.getAttribute('src') || '';
-		img.alt = this.getAttribute('alt') || '';
-		img.loading = 'lazy';
-		img.decoding = 'async';
-		img.className = 'lw-avatar__img';
-		this.append(img);
-	}
-}
-
-class LwSocials extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-socials');
-		for(const link of this.querySelectorAll('a'))
-		{
-			link.classList.add('lw-socials__item');
-			if(!link.hasAttribute('target')) link.setAttribute('target', '_top');
-			if(!link.hasAttribute('rel')) link.setAttribute('rel', 'noopener');
-		}
-	}
-}
-
-class LwButtons extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-buttons');
-		for(const link of this.querySelectorAll('a'))
-		{
-			link.classList.add('lw-button');
-			if(!link.hasAttribute('target')) link.setAttribute('target', '_blank');
-			if(!link.hasAttribute('rel')) link.setAttribute('rel', 'noopener');
-		}
-	}
-}
-
 class LwDivider extends HTMLElement
 {
 	connectedCallback()
@@ -136,73 +37,6 @@ class LwDivider extends HTMLElement
 		const right = document.createElement('div');
 		right.className = 'lw-divider__line is-right';
 		this.replaceChildren(left, icon, right);
-	}
-}
-
-class LwFeatureList extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-feature-list');
-	}
-}
-
-class LwFeature extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-feature');
-		const media = document.createElement('div');
-		media.className = 'lw-feature__media';
-		const body = document.createElement('div');
-		body.className = 'lw-feature__body';
-		const image = this.getAttribute('image');
-		const icon = this.getAttribute('icon');
-		if(image)
-		{
-			const span = document.createElement('span');
-			span.className = 'lw-feature__image';
-			span.style.backgroundImage = `url(${image})`;
-			media.append(span);
-		}
-		else if(icon)
-		{
-			const span = document.createElement('span');
-			span.className = 'lw-feature__icon';
-			const value = icon.trim();
-			if(value.startsWith('<')) span.innerHTML = value;
-			else span.classList.add(value);
-			media.append(span);
-		}
-		else
-		{
-			media.classList.add('is-empty');
-			this.classList.add('is-no-media');
-		}
-		while(this.firstChild)
-			body.append(this.firstChild);
-		this.replaceChildren(media, body);
-	}
-}
-
-class LwCardMedia extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-card__media');
-		const image = this.getAttribute('image');
-		if(image) this.style.backgroundImage = `url(${image})`;
-	}
-}
-
-class LwHeroGrid extends HTMLElement
-{
-	connectedCallback()
-	{
-		this.classList.add('lw-hero-grid');
-		const img = this.getAttribute('image');
-		const photo = this.querySelector('.lw-hero-grid__photo');
-		if(photo && img) photo.style.backgroundImage = `url(${img})`;
 	}
 }
 
@@ -231,14 +65,7 @@ class LwCarousel extends HTMLElement
 		for(const slide of slides)
 		{
 			slide.classList.add('lw-carousel__slide');
-			const card = slide.querySelector(':scope > .lw-card');
 			track.append(slide);
-			if(!card) continue;
-			const maybeMedia = card.querySelector(':scope > div');
-			if(!maybeMedia || maybeMedia.classList.contains('lw-card__media')) continue;
-			const style = maybeMedia.getAttribute('style') || '';
-			if(style.includes('background-image'))
-				maybeMedia.classList.add('lw-card__media');
 		}
 
 		viewport.append(track);
@@ -386,17 +213,6 @@ class LwSlide extends HTMLElement
 	}
 }
 
-customElements.define('lw-page', LwPage);
-customElements.define('lw-section', LwSection);
-customElements.define('lw-avatar', LwAvatar);
-customElements.define('lw-socials', LwSocials);
-customElements.define('lw-buttons', LwButtons);
 customElements.define('lw-divider', LwDivider);
-customElements.define('lw-feature-list', LwFeatureList);
-customElements.define('lw-feature', LwFeature);
-customElements.define('lw-hero-grid', LwHeroGrid);
-customElements.define('lw-header', LwHeader);
-customElements.define('lw-banner', LwBanner);
 customElements.define('lw-carousel', LwCarousel);
 customElements.define('lw-slide', LwSlide);
-customElements.define('lw-card-media', LwCardMedia);

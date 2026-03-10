@@ -30,6 +30,9 @@
 
 	--lw-divider-line: rgba(93,117,93,0.35);
 	--lw-divider-stroke: rgba(93,117,93,0.7);
+	--lw-divider-left: linear-gradient(var(--lw-divider-line), var(--lw-divider-line)) left center / calc(50% - 19px) 1px no-repeat;
+	--lw-divider-right: linear-gradient(var(--lw-divider-line), var(--lw-divider-line)) right center / calc(50% - 19px) 1px no-repeat;
+	--lw-divider-center: '';
 
 	--lw-carousel-pad-x: 50px;
 	--lw-carousel-pad-bottom: 18px;
@@ -54,7 +57,10 @@
 	--lw-price-size: 20px;
 	--lw-pricing-title-size: 24px;
 
-	--lw-header-image: url(../../../assets/images/headers/68350739.jpg);
+	--lw-header-bg-main: #b0c5d7;
+	--lw-banner-bg-main: #c7d8b6;
+
+	--lw-header-image: url(../../assets/images/headers/68350739.jpg);
 }
 
 body {
