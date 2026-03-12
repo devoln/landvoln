@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>LandVoln – Minimal static landing framework</title>
+	<link rel="icon" type="image/x-icon" href="logo.svg">
+
+	<link rel="stylesheet" href="../assets/fonts/icons/icons.css" />
+
+	<link rel="stylesheet" href="../framework/themes/theme2/theme.css" />
+	<link rel="stylesheet" href="../framework/styles/core.css" />
+	<link rel="stylesheet" href="../framework/styles/components.css" />
+</head>
+<body>
+	<lv-page>
+		<lv-header>
+			<lv-avatar><img src="logo.svg" alt="LandVoln" /></lv-avatar>
+
+			<lv-socials>
+				<a href="https://github.com/devoln/landvoln" aria-label="GitHub" data-kind="github"><i class="lv-icon i-github" aria-hidden="true"></i></a>
+				<a href="https://x.com/" aria-label="X" data-kind="x"><i class="lv-icon i-x" aria-hidden="true"></i></a>
+				<a href="https://www.linkedin.com/" aria-label="LinkedIn" data-kind="linkedin"><i class="lv-icon i-linkedin" aria-hidden="true"></i></a>
+				<a href="https://t.me/your_username" aria-label="Telegram" data-kind="telegram"><i class="lv-icon i-telegram" aria-hidden="true"></i></a>
+				<a href="https://discord.gg/your_invite" aria-label="Discord" data-kind="discord"><i class="lv-icon i-discord" aria-hidden="true"></i></a>
+				<a href="https://slack.com/" aria-label="Slack" data-kind="slack"><i class="lv-icon i-slack" aria-hidden="true"></i></a>
+				<a href="https://youtube.com/@your_channel" aria-label="YouTube" data-kind="youtube"><i class="lv-icon i-youtube" aria-hidden="true"></i></a>
+				<a href="https://reddit.com/u/your_username" aria-label="Reddit" data-kind="reddit"><i class="lv-icon i-reddit" aria-hidden="true"></i></a>
+				<a href="mailto:you@example.com" aria-label="Email" data-kind="mail"><i class="lv-icon i-mail" aria-hidden="true"></i></a>
+				<a href="https://your-domain.com" aria-label="Website" data-kind="website"><i class="lv-icon i-globe" aria-hidden="true"></i></a>
+			<!-- Template (uncomment and fill your links):
+			-->
+			</lv-socials>
+		</lv-header>
+
+		<lv-banner>
+			<h2 class="lv-slogan">
+				Minimal, readable HTML for static landings — no build step.
+			</h2>
+		</lv-banner>
+
+		<lv-section>
+			<h2><b>What is LandVoln?</b></h2>
+			<p class="lv-text-center lv-m0">
+				LandVoln is an experimental micro-framework for building static landing pages using custom HTML tags (a tiny DSL) and lightweight content.
+			</p>
+			<lv-divider></lv-divider>
+		</lv-section>
+
+		<lv-section>
+			<h2><b>Why it exists</b></h2>
+			<lv-feature-list>
+				<lv-feature icon="i-diag">You want a landing page that is easy to read and edit in raw HTML.</lv-feature>
+				<lv-feature icon="i-diag">You don’t want to ship a SPA for a simple marketing page.</lv-feature>
+				<lv-feature icon="i-diag">You want reusable blocks without setting up a build pipeline.</lv-feature>
+				<lv-feature icon="i-diag">You need just a bit of interactivity (like a carousel) with minimal JS.</lv-feature>
+			</lv-feature-list>
+			<lv-divider></lv-divider>
+		</lv-section>
+
+		<lv-section>
+			<h2><b>Key features</b></h2>
+			<lv-grid cols="3">
+				<div class="lv-grid__item">
+					<div class="lv-grid__icon i-star"></div>
+					<div><b>Custom HTML DSL</b><br />Tags like <code>&lt;lv-section&gt;</code> and <code>&lt;lv-carousel&gt;</code> keep markup declarative.</div>
+				</div>
+				<div class="lv-grid__item">
+					<div class="lv-grid__icon i-star"></div>
+					<div><b>Minimal JS</b><br />Most blocks work without JS. Only interactive pieces enhance with tiny scripts.</div>
+				</div>
+				<div class="lv-grid__item">
+					<div class="lv-grid__icon i-star"></div>
+					<div><b>Themes via CSS vars</b><br />Swap a single theme file to change the look.</div>
+				</div>
+				<div class="lv-grid__item">
+					<div class="lv-grid__icon i-star"></div>
+					<div><b>Static deploy</b><br />Copy files to any hosting or publish with GitHub Pages.</div>
+				</div>
+				<div class="lv-grid__item">
+					<div class="lv-grid__icon i-star"></div>
+					<div><b>Progressive enhancement</b><br />Carousel gracefully degrades without JS.</div>
+				</div>
+				<div class="lv-grid__item">
+					<div class="lv-grid__icon i-star"></div>
+					<div><b>Fork-friendly</b><br />Edit plain HTML + CSS. No tooling required.</div>
+				</div>
+			</lv-grid>
+			<lv-divider></lv-divider>
+		</lv-section>
+
+		<lv-section>
+			<h2><b>Getting started</b></h2>
+			<lv-feature-list>
+				<lv-feature>
+					<p><b>1. Fork the repository</b></p>
+					<p class="lv-muted">Keep `framework/` and create your own landing folder next to `lv-demo/`.</p>
+				</lv-feature>
+				<lv-feature>
+					<p><b>2. Copy the demo HTML</b></p>
+					<p class="lv-muted">Replace text blocks and update socials/CTA links.</p>
+				</lv-feature>
+				<lv-feature>
+					<p><b>3. Pick a theme</b></p>
+					<p class="lv-muted">Use `theme1` or `theme2`, or create your own theme file with CSS variables.</p>
+				</lv-feature>
+			</lv-feature-list>
+			<lv-divider></lv-divider>
+		</lv-section>
+
+		<lv-section>
+			<h2><b>Code examples</b></h2>
+			<lv-carousel data-bleed="full" data-kind="code">
+				<lv-slide><lv-card>
+					<h3>Minimal page skeleton</h3>
+					<lv-code data-lang="html">
+<template>
+<link rel="stylesheet" href="../framework/themes/theme2/theme.css" />
+<link rel="stylesheet" href="../framework/styles/core.css" />
+<link rel="stylesheet" href="../framework/styles/components.css" />
+
+<script type="module" src="../framework/components.js"></script>
+
+<lv-page>
+	<lv-header>...</lv-header>
+	<lv-section>...</lv-section>
+</lv-page>
+</template>
+				</lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>Minimal lv-code</h3>
+					<p class="lv-muted">Progressive enhancement: renders from &lt;template&gt; with JS, highlights only if code.js is included.</p>
+					<lv-code data-lang="html">
+<template>
+<lv-code data-lang="ts"><script type="text/plain">
+const greet = (name: string) => `Hello, ${name}`;
+</script></lv-code>
+</template>
+					</lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>Theme variables</h3>
+					<lv-code data-lang="css"><script type="text/plain">
+:root {
+	--lv-color-text: rgba(255,255,255,0.92);
+	--lv-color-accent: #7c3aed;
+	--lv-card-bg: rgba(255,255,255,0.06);
+}
+
+body {
+	background-image:
+		radial-gradient(...),
+		linear-gradient(...);
+}
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>Carousel (progressive enhancement)</h3>
+					<p class="lv-muted">Works as a scrollable list without JS, becomes a carousel with arrows + dots with JS.</p>
+					<lv-code data-lang="html"><script type="text/plain">
+<lv-carousel data-bleed="full">
+	<lv-slide><lv-card>...</lv-card></lv-slide>
+	<lv-slide><lv-card>...</lv-card></lv-slide>
+</lv-carousel>
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>Buttons and socials</h3>
+					<lv-code data-lang="html"><script type="text/plain">
+<lv-socials>
+	<a href="https://github.com/you" data-kind="github" aria-label="GitHub">
+		<i class="lv-icon i-github" aria-hidden="true"></i>
+	</a>
+</lv-socials>
+
+<lv-buttons>
+	<a data-kind="telegram" href="tg://resolve?domain=your_username">
+		<i class="lv-icon i-telegram" aria-hidden="true"></i>Telegram
+	</a>
+	<a data-kind="github" href="https://github.com/devoln/landvoln">View repo</a>
+</lv-buttons>
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>Feature list</h3>
+					<lv-code data-lang="html"><script type="text/plain">
+<lv-feature-list>
+	<lv-feature icon="i-diag">Readable plain HTML</lv-feature>
+	<lv-feature icon="i-diag">Minimal JS</lv-feature>
+</lv-feature-list>
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>Grid + cards</h3>
+					<lv-code data-lang="html">
+<template>
+<lv-grid cols="3">
+	<div class="lv-grid__item">
+		<div class="lv-grid__icon i-star"></div>
+		<div>Custom HTML tags</div>
+	</div>
+</lv-grid>
+
+<lv-card>
+	<h3>A simple card</h3>
+	<p class="lv-muted">Use cards inside carousels or sections.</p>
+</lv-card>
+</template>
+					</lv-code>
+				</lv-card></lv-slide>
+			</lv-carousel>
+			<lv-divider></lv-divider>
+		</lv-section>
+
+		<lv-section>
+			<h2><b>C-like highlighting</b></h2>
+			<p class="lv-muted">Works for C, C++, C#, and TypeScript (shared lightweight highlighter).</p>
+			<lv-carousel data-bleed="full" data-kind="code">
+				<lv-slide><lv-card>
+					<h3>C (macros + struct)</h3>
+					<lv-code data-lang="c"><script type="text/plain">
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+
+typedef struct Vec2 { int x; int y; } Vec2;
+
+int clamp(int v, int lo, int hi) {
+	if(v < lo) return lo;
+	if(v > hi) return hi;
+	return v;
+}
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>C++ (template + RAII)</h3>
+					<lv-code data-lang="cpp"><script type="text/plain">
+template <typename T>
+class Box {
+	T value;
+	explicit Box(T v) : value(v) {}
+};
+
+auto make_box() {
+	return Box<int>(42);
+}
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>C# (generics + pattern matching)</h3>
+					<lv-code data-lang="cs"><script type="text/plain">
+class Cache<T>
+{
+	public T? GetOrDefault(object key) => key switch
+	{
+		string s when s.Length > 0 => default,
+		_ => default
+	};
+}
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>TypeScript (types + async)</h3>
+					<lv-code data-lang="ts"><script type="text/plain">
+type Result<T> = { ok: true; value: T } | { ok: false; error: string };
+
+export async function fetchJson(url: string): Promise<Result<unknown>> {
+	try {
+		const res = await fetch(url);
+		return { ok: true, value: await res.json() };
+	} catch (e) {
+		return { ok: false, error: String(e) };
+	}
+}
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>GLSL (types + uniforms)</h3>
+					<lv-code data-lang="glsl"><script type="text/plain">
+uniform sampler2D tex;
+in vec2 uv;
+out vec4 fragColor;
+
+void main() {
+	vec4 c = texture(tex, uv);
+	fragColor = vec4(c.rgb, 1.0);
+}
+					</script></lv-code>
+				</lv-card></lv-slide>
+
+				<lv-slide><lv-card>
+					<h3>HLSL (struct + semantics)</h3>
+					<lv-code data-lang="hlsl"><script type="text/plain">
+struct VSOut { float4 pos : SV_Position; float2 uv : TEXCOORD0; };
+Texture2D tex : register(t0);
+SamplerState samp : register(s0);
+
+float4 PSMain(VSOut i) : SV_Target {
+	return tex.Sample(samp, i.uv);
+}
+					</script></lv-code>
+				</lv-card></lv-slide>
+			</lv-carousel>
+			<lv-divider></lv-divider>
+		</lv-section>
+
+		<lv-section>
+			<h3 class="lv-callout">Ready to use it in your own landing?</h3>
+			<lv-buttons>
+				<a data-kind="github" href="https://github.com/devoln/landvoln"><i class="lv-icon i-github" aria-hidden="true"></i>Open LandVoln repository</a>
+				<a data-variant="blue" href="https://github.com/devoln/landvoln">Create your landing (fork)</a>
+			</lv-buttons>
+		</lv-section>
+
+		<lv-section>
+			<lv-buttons>
+				<lv-socials>
+					<a href="https://github.com/devoln/landvoln" aria-label="GitHub" data-kind="github"><i class="lv-icon i-github" aria-hidden="true"></i></a>
+					<a href="https://x.com/" aria-label="X" data-kind="x"><i class="lv-icon i-x" aria-hidden="true"></i></a>
+					<a href="https://www.linkedin.com/" aria-label="LinkedIn" data-kind="linkedin"><i class="lv-icon i-linkedin" aria-hidden="true"></i></a>
+				</lv-socials>
+			</lv-buttons>
+		</lv-section>
+	</lv-page>
+
+	<script type="module" src="../framework/components.js"></script>
+	<script type="module" src="../framework/code.js"></script>
+</body>
+</html>

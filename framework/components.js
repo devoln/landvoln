@@ -23,6 +23,95 @@ const resetScrollX = () => {
 };
 
 
+const normalizeText = (text) => {
+	text = text.replace(/^\n/, '').replace(/\n\s*$/, '');
+
+	const lines = text.split('\n');
+	let minIndent = Number.POSITIVE_INFINITY;
+	for(const line of lines)
+	{
+		if(!line.trim()) continue;
+		const m = line.match(/^\s*/);
+		const indent = m? m[0].length: 0;
+		if(indent < minIndent) minIndent = indent;
+	}
+	if(!Number.isFinite(minIndent) || minIndent <= 0) return text;
+
+	return lines.map((line) => {
+		if(!line.trim()) return '';
+		return line.slice(minIndent);
+	}).join('\n');
+};
+
+
+class LvCode extends HTMLElement
+{
+	codeEl;
+	rawText = '';
+	copyButton;
+
+	connectedCallback()
+	{
+		this.classList.add('lv-code');
+		if(this.querySelector(':scope > pre')) return;
+
+		const script = this.querySelector(':scope > script[type="text/plain"]');
+		const template = this.querySelector(':scope > template');
+		if(!script && !template) return;
+
+		this.rawText = normalizeText(script? script.textContent || '': template.innerHTML);
+
+		const pre = document.createElement('pre');
+		const code = document.createElement('code');
+		code.textContent = this.rawText;
+		pre.append(code);
+		this.append(pre);
+		this.codeEl = code;
+
+		if(this.querySelector(':scope > .lv-code__copy')) return;
+
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.className = 'lv-code__copy';
+		button.setAttribute('aria-label', 'Copy');
+		button.innerHTML = '<span class="lv-code__copy-text">Copy</span><span class="lv-icon-mask i-copy lv-code__copy-icon" aria-hidden="true"></span>';
+
+		button.addEventListener('pointerdown', (e) => {
+			e.stopPropagation();
+		});
+
+		button.addEventListener('click', async (e) => {
+			e.stopPropagation();
+			try {
+				await navigator.clipboard.writeText(this.rawText);
+				button.style.opacity = '1';
+				button.setAttribute('aria-label', 'Copied');
+				window.setTimeout(() => {
+					button.setAttribute('aria-label', 'Copy');
+				}, 900);
+			}
+			catch {
+				const ta = document.createElement('textarea');
+				ta.value = this.rawText;
+				ta.style.position = 'fixed';
+				ta.style.left = '-9999px';
+				document.body.append(ta);
+				ta.select();
+				try { document.execCommand('copy'); }
+				finally { ta.remove(); }
+			}
+		});
+
+		this.copyButton = button;
+		this.append(button);
+		this.highlight();
+	}
+
+	highlight() {}
+}
+customElements.define('lv-code', LvCode);
+
+
 class LwCarousel extends HTMLElement
 {
 	#scrollEl;
@@ -34,20 +123,20 @@ class LwCarousel extends HTMLElement
 
 	connectedCallback()
 	{
-		this.classList.add('lw-carousel');
+		this.classList.add('lv-carousel');
 
-		if(this.querySelector(':scope > .lw-carousel__viewport')) return;
+		if(this.querySelector(':scope > .lv-carousel__viewport')) return;
 
 		const viewport = document.createElement('div');
-		viewport.className = 'lw-carousel__viewport';
+		viewport.className = 'lv-carousel__viewport';
 
 		const track = document.createElement('div');
-		track.className = 'lw-carousel__track';
+		track.className = 'lv-carousel__track';
 
-		const slides = Array.from(this.querySelectorAll(':scope > lw-slide'));
+		const slides = Array.from(this.querySelectorAll(':scope > lv-slide'));
 		for(const slide of slides)
 		{
-			slide.classList.add('lw-carousel__slide');
+			slide.classList.add('lv-carousel__slide');
 			for(const img of slide.querySelectorAll('img'))
 			{
 				img.draggable = false;
@@ -59,21 +148,21 @@ class LwCarousel extends HTMLElement
 		viewport.append(track);
 
 		const arrows = document.createElement('div');
-		arrows.className = 'lw-carousel__arrows';
+		arrows.className = 'lv-carousel__arrows';
 		const prev = document.createElement('button');
 		prev.type = 'button';
-		prev.className = 'lw-carousel__arrow is-prev';
+		prev.className = 'lv-carousel__arrow is-prev';
 		prev.setAttribute('aria-label', 'Previous');
 		prev.textContent = '‹';
 		const next = document.createElement('button');
 		next.type = 'button';
-		next.className = 'lw-carousel__arrow is-next';
+		next.className = 'lv-carousel__arrow is-next';
 		next.setAttribute('aria-label', 'Next');
 		next.textContent = '›';
 		arrows.append(prev, next);
 
 		const dots = document.createElement('div');
-		dots.className = 'lw-carousel__dots';
+		dots.className = 'lv-carousel__dots';
 
 		this.replaceChildren(viewport, dots, arrows);
 
@@ -109,6 +198,7 @@ class LwCarousel extends HTMLElement
 			document.documentElement.style.userSelect = prevUserSelect;
 		};
 		this.#onPointerDown = (e) => {
+			if(e.target && e.target.closest && e.target.closest('a,button,input,textarea,select,label')) return;
 			if(e.button !== undefined && e.button !== 0) return;
 			e.preventDefault();
 			isDown = true;
@@ -147,7 +237,7 @@ class LwCarousel extends HTMLElement
 		{
 			const dot = document.createElement('button');
 			dot.type = 'button';
-			dot.className = 'lw-carousel__dot';
+			dot.className = 'lv-carousel__dot';
 			dot.setAttribute('aria-label', `Slide ${i + 1}`);
 			dot.addEventListener('click', () => this.scrollToIndex(i));
 			this.#dots.append(dot);
@@ -193,5 +283,4 @@ class LwCarousel extends HTMLElement
 		}
 	}
 }
-
-customElements.define('lw-carousel', LwCarousel);
+customElements.define('lv-carousel', LwCarousel);

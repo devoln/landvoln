@@ -1,0 +1,85 @@
+:root {
+	--lv-color-surface: transparent;
+	--lv-color-text: rgba(255,255,255,0.92);
+	--lv-color-accent: #7c3aed;
+	--lv-color-brand-surface: rgba(255,255,255,0.04);
+	--lv-color-brand-text: rgba(255,255,255,0.9);
+	--lv-color-slogan: #a78bfa;
+
+	--lv-shadow: none;
+
+	--lv-font-body: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Ubuntu, "Noto Sans", Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--lv-font-accent: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Ubuntu, "Noto Sans", Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--lv-heading-weight: 600;
+	--lv-heading-weight-bold: 800;
+
+	--lv-page-width: 860px;
+	--lv-page-padding: 16px;
+	--lv-page-gap: 12px;
+	--lv-section-gap: 12px;
+	--lv-section-pad-x: 0px;
+	--lv-section-pad-y: 0px;
+	--lv-section-radius: 0px;
+	--lv-gap: 12px;
+
+	--lv-link-radius: 16px;
+	--lv-link-border-width: 1px;
+
+	--lv-divider-line: rgba(255,255,255,0.14);
+	--lv-divider-stroke: rgba(255,255,255,0.22);
+	--lv-divider-left: linear-gradient(var(--lv-divider-line), var(--lv-divider-line)) left center / calc(50% - 19px) 1px no-repeat;
+	--lv-divider-right: linear-gradient(var(--lv-divider-line), var(--lv-divider-line)) right center / calc(50% - 19px) 1px no-repeat;
+	--lv-divider-center: '';
+
+	--lv-carousel-pad-x: 50px;
+	--lv-carousel-pad-bottom: 18px;
+	--lv-carousel-dots-mb: 16px;
+	--lv-carousel-dot-bg: rgba(255,255,255,0.25);
+	--lv-carousel-dot-active-bg: rgba(255,255,255,0.6);
+	--lv-carousel-arrow-inset: 12px;
+	--lv-carousel-arrow-bg: rgba(255,255,255,0.12);
+	--lv-carousel-arrow-fg: rgba(255,255,255,0.92);
+
+	--lv-feature-icon-color: rgba(255,255,255,0.75);
+
+	--lv-grid-icon-bg: rgba(255,255,255,0.10);
+	--lv-grid-icon-fg: rgba(255,255,255,0.92);
+
+	--lv-button-blue-bg: #2563eb;
+	--lv-button-blue-fg: #fff;
+	--lv-button-whatsapp-bg: #22c55e;
+	--lv-button-whatsapp-fg: #0b1020;
+	--lv-button-telegram-bg: #38bdf8;
+	--lv-button-telegram-fg: #0b1020;
+
+	--lv-card-bg: rgba(255,255,255,0.06);
+	--lv-price-size: 20px;
+	--lv-pricing-title-size: 22px;
+	--lv-code-tab-size: 4;
+
+	--lv-header-image: none;
+}
+
+lv-header {
+	--lv-header-bg: linear-gradient(135deg, rgba(124,58,237,0.22) 0%, rgba(59,130,246,0.14) 45%, rgba(16,185,129,0.12) 100%);
+}
+
+lv-banner {
+	--lv-banner-bg: rgba(255,255,255,0.04);
+}
+
+body {
+	background-image:
+		radial-gradient(1200px 700px at 10% 10%, rgba(124,58,237,0.22), rgba(124,58,237,0) 55%),
+		radial-gradient(900px 600px at 85% 25%, rgba(59,130,246,0.18), rgba(59,130,246,0) 60%),
+		radial-gradient(900px 700px at 60% 90%, rgba(16,185,129,0.10), rgba(16,185,129,0) 55%),
+		linear-gradient(180deg, rgba(11,16,32,1), rgba(9,12,22,1));
+}
+
+.lv-tok-comment { color: rgba(148,163,184,0.9); }
+.lv-tok-string { color: rgba(52,211,153,0.95); }
+.lv-tok-keyword { color: rgba(167,139,250,0.95); }
+.lv-tok-fn { color: rgba(96,165,250,0.95); }
+.lv-tok-tag { color: rgba(96,165,250,0.95); }
+.lv-tok-attr { color: rgba(251,191,36,0.95); }
+.lv-tok-number { color: rgba(248,113,113,0.95); }
