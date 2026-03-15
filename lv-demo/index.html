@@ -6,144 +6,137 @@
 	<title>LandVoln – Minimal static landing framework</title>
 	<link rel="icon" type="image/x-icon" href="logo.svg">
 
-	<link rel="stylesheet" href="../assets/fonts/icons/icons.css" />
-
-	<link rel="stylesheet" href="../framework/themes/theme2/theme.css" />
-	<link rel="stylesheet" href="../framework/styles/core.css" />
 	<link rel="stylesheet" href="../framework/styles/components.css" />
+	<link rel="stylesheet" href="../framework/themes/theme3/theme.css" />
 </head>
-<body>
-	<lv-page>
-		<lv-header>
-			<lv-avatar><img src="logo.svg" alt="LandVoln" /></lv-avatar>
+<body class="lv">
+	<header>
+		<lv-avatar><img src="logo.svg" alt="LandVoln" /></lv-avatar>
+		<lv-socials>
+			<a href="https://github.com/devoln/landvoln" style="background: #111827;"><lv-i set="brands" aria-label="GitHub">&#xF09B;</lv-i></a>
+			<a href="https://x.com/" style="background: #000000;"><lv-i set="brands" aria-label="X">&#xE61B;</lv-i></a>
+			<a href="https://www.linkedin.com/" style="background: #0A66C2;"><lv-i set="brands" aria-label="LinkedIn">&#xF0E1;</lv-i></a>
+			<a href="https://t.me/your_username" style="background: #229ED9;"><lv-i set="brands" aria-label="Telegram">&#xF2C6;</lv-i></a>
+			<a href="https://discord.gg/your_invite" style="background: #5865F2;"><lv-i set="brands" aria-label="Discord">&#xF392;</lv-i></a>
+			<a href="https://slack.com/" style="background: #4A154B;"><lv-i set="brands" aria-label="Slack">&#xF198;</lv-i></a>
+			<a href="https://youtube.com/@your_channel" style="background: #FF0000;"><lv-i set="brands" aria-label="YouTube">&#xF167;</lv-i></a>
+			<a href="https://reddit.com/u/your_username" style="background: #FF4500;"><lv-i set="brands" aria-label="Reddit">&#xF281;</lv-i></a>
+			<a href="mailto:you@example.com" style="background: #64748B;"><lv-i aria-label="Email">&#xF0E0;</lv-i></a>
+			<a href="https://your-domain.com" style="background: #0EA5E9;"><lv-i icon="globe" aria-label="Website"></lv-i></a>
+		</lv-socials>
+	</header>
 
-			<lv-socials>
-				<a href="https://github.com/devoln/landvoln" aria-label="GitHub" data-kind="github"><i class="lv-icon i-github" aria-hidden="true"></i></a>
-				<a href="https://x.com/" aria-label="X" data-kind="x"><i class="lv-icon i-x" aria-hidden="true"></i></a>
-				<a href="https://www.linkedin.com/" aria-label="LinkedIn" data-kind="linkedin"><i class="lv-icon i-linkedin" aria-hidden="true"></i></a>
-				<a href="https://t.me/your_username" aria-label="Telegram" data-kind="telegram"><i class="lv-icon i-telegram" aria-hidden="true"></i></a>
-				<a href="https://discord.gg/your_invite" aria-label="Discord" data-kind="discord"><i class="lv-icon i-discord" aria-hidden="true"></i></a>
-				<a href="https://slack.com/" aria-label="Slack" data-kind="slack"><i class="lv-icon i-slack" aria-hidden="true"></i></a>
-				<a href="https://youtube.com/@your_channel" aria-label="YouTube" data-kind="youtube"><i class="lv-icon i-youtube" aria-hidden="true"></i></a>
-				<a href="https://reddit.com/u/your_username" aria-label="Reddit" data-kind="reddit"><i class="lv-icon i-reddit" aria-hidden="true"></i></a>
-				<a href="mailto:you@example.com" aria-label="Email" data-kind="mail"><i class="lv-icon i-mail" aria-hidden="true"></i></a>
-				<a href="https://your-domain.com" aria-label="Website" data-kind="website"><i class="lv-icon i-globe" aria-hidden="true"></i></a>
-			<!-- Template (uncomment and fill your links):
-			-->
-			</lv-socials>
-		</lv-header>
-
-		<lv-banner>
+	<main>
+		<div class="lv-banner">
 			<h2 class="lv-slogan">
 				Minimal, readable HTML for static landings — no build step.
 			</h2>
-		</lv-banner>
+		</div>
 
-		<lv-section>
+		<section>
 			<h2><b>What is LandVoln?</b></h2>
-			<p class="lv-text-center lv-m0">
+			<p style="text-align: center; margin: 0;">
 				LandVoln is an experimental micro-framework for building static landing pages using custom HTML tags (a tiny DSL) and lightweight content.
 			</p>
 			<lv-divider></lv-divider>
-		</lv-section>
+		</section>
 
-		<lv-section>
+		<section>
 			<h2><b>Why it exists</b></h2>
-			<lv-feature-list>
-				<lv-feature icon="i-diag">You want a landing page that is easy to read and edit in raw HTML.</lv-feature>
-				<lv-feature icon="i-diag">You don’t want to ship a SPA for a simple marketing page.</lv-feature>
-				<lv-feature icon="i-diag">You want reusable blocks without setting up a build pipeline.</lv-feature>
-				<lv-feature icon="i-diag">You need just a bit of interactivity (like a carousel) with minimal JS.</lv-feature>
-			</lv-feature-list>
+			<ul class="lv-features">
+				<li><lv-i icon="diag"></lv-i>You want a landing page that is easy to read and edit in raw HTML.</li>
+				<li><lv-i icon="diag"></lv-i>You don’t want to ship a SPA for a simple marketing page.</li>
+				<li><lv-i icon="diag"></lv-i>You want reusable blocks without setting up a build pipeline.</li>
+				<li><lv-i icon="diag"></lv-i>You need just a bit of interactivity (like a carousel) with minimal JS.</li>
+			</ul>
 			<lv-divider></lv-divider>
-		</lv-section>
+		</section>
 
-		<lv-section>
+		<section>
 			<h2><b>Key features</b></h2>
 			<lv-grid cols="3">
-				<div class="lv-grid__item">
-					<div class="lv-grid__icon i-star"></div>
-					<div><b>Custom HTML DSL</b><br />Tags like <code>&lt;lv-section&gt;</code> and <code>&lt;lv-carousel&gt;</code> keep markup declarative.</div>
+				<div>
+					<lv-i class="lv-grid__icon">★</lv-i>
+					<div><b>Custom HTML DSL</b><br />Tags like <code>&lt;section&gt;</code> and <code>&lt;lv-carousel&gt;</code> keep markup declarative.</div>
 				</div>
-				<div class="lv-grid__item">
-					<div class="lv-grid__icon i-star"></div>
+				<div>
+					<lv-i class="lv-grid__icon">★</lv-i>
 					<div><b>Minimal JS</b><br />Most blocks work without JS. Only interactive pieces enhance with tiny scripts.</div>
 				</div>
-				<div class="lv-grid__item">
-					<div class="lv-grid__icon i-star"></div>
+				<div>
+					<lv-i class="lv-grid__icon">★</lv-i>
 					<div><b>Themes via CSS vars</b><br />Swap a single theme file to change the look.</div>
 				</div>
-				<div class="lv-grid__item">
-					<div class="lv-grid__icon i-star"></div>
+				<div>
+					<lv-i class="lv-grid__icon">★</lv-i>
 					<div><b>Static deploy</b><br />Copy files to any hosting or publish with GitHub Pages.</div>
 				</div>
-				<div class="lv-grid__item">
-					<div class="lv-grid__icon i-star"></div>
+				<div>
+					<lv-i class="lv-grid__icon">★</lv-i>
 					<div><b>Progressive enhancement</b><br />Carousel gracefully degrades without JS.</div>
 				</div>
-				<div class="lv-grid__item">
-					<div class="lv-grid__icon i-star"></div>
+				<div>
+					<lv-i class="lv-grid__icon">★</lv-i>
 					<div><b>Fork-friendly</b><br />Edit plain HTML + CSS. No tooling required.</div>
 				</div>
 			</lv-grid>
 			<lv-divider></lv-divider>
-		</lv-section>
+		</section>
 
-		<lv-section>
+		<section>
 			<h2><b>Getting started</b></h2>
-			<lv-feature-list>
-				<lv-feature>
+			<ul class="lv-features">
+				<li>
 					<p><b>1. Fork the repository</b></p>
 					<p class="lv-muted">Keep `framework/` and create your own landing folder next to `lv-demo/`.</p>
-				</lv-feature>
-				<lv-feature>
+				</li>
+				<li>
 					<p><b>2. Copy the demo HTML</b></p>
 					<p class="lv-muted">Replace text blocks and update socials/CTA links.</p>
-				</lv-feature>
-				<lv-feature>
+				</li>
+				<li>
 					<p><b>3. Pick a theme</b></p>
 					<p class="lv-muted">Use `theme1` or `theme2`, or create your own theme file with CSS variables.</p>
-				</lv-feature>
-			</lv-feature-list>
+				</li>
+			</ul>
 			<lv-divider></lv-divider>
-		</lv-section>
+		</section>
 
-		<lv-section>
+		<section>
 			<h2><b>Code examples</b></h2>
-			<lv-carousel data-bleed="full" data-kind="code">
-				<lv-slide><lv-card>
+			<lv-carousel bleed="full" kind="code">
+				<lv-card>
 					<h3>Minimal page skeleton</h3>
-					<lv-code data-lang="html">
-<template>
-<link rel="stylesheet" href="../framework/themes/theme2/theme.css" />
-<link rel="stylesheet" href="../framework/styles/core.css" />
+					<lv-code lang="html"><script type="text/plain">
 <link rel="stylesheet" href="../framework/styles/components.css" />
+<link rel="stylesheet" href="../framework/themes/theme2/theme.css" />
 
-<script type="module" src="../framework/components.js"></script>
-
-<lv-page>
-	<lv-header>...</lv-header>
-	<lv-section>...</lv-section>
-</lv-page>
-</template>
-				</lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
+<body class="lv">
+	<header>...</header>
+	<main>...</main>
+	<script type="module" src="../framework/components.js"><\/script>
+</body>
+					</script></lv-code>
+				</lv-card>
+				<lv-card>
 					<h3>Minimal lv-code</h3>
-					<p class="lv-muted">Progressive enhancement: renders from &lt;template&gt; with JS, highlights only if code.js is included.</p>
-					<lv-code data-lang="html">
+					<p class="lv-muted">Progressive enhancement: renders from &lt;template&gt; or &lt;script type="text/plain"&gt; with JS, highlights only if code.js is included.</p>
+					<lv-code lang="html">
 <template>
-<lv-code data-lang="ts"><script type="text/plain">
+<!--This is a comment. Comments are not displayed in the browser-->
+<lv-code lang="ts"><script type="text/plain">
 const greet = (name: string) => `Hello, ${name}`;
 </script></lv-code>
 </template>
 					</lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
+					<h3>Will look like:</h3>
+					<lv-code lang="ts"><script type="text/plain">
+	const greet = (name: string) => `Hello, ${name}`;
+					</script></lv-code>
+				</lv-card>
+				<lv-card>
 					<h3>Theme variables</h3>
-					<lv-code data-lang="css"><script type="text/plain">
+					<lv-code lang="css"><script type="text/plain">
 :root {
 	--lv-color-text: rgba(255,255,255,0.92);
 	--lv-color-accent: #7c3aed;
@@ -156,76 +149,74 @@ body {
 		linear-gradient(...);
 }
 					</script></lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
+				</lv-card>
+				<lv-card>
 					<h3>Carousel (progressive enhancement)</h3>
 					<p class="lv-muted">Works as a scrollable list without JS, becomes a carousel with arrows + dots with JS.</p>
-					<lv-code data-lang="html"><script type="text/plain">
-<lv-carousel data-bleed="full">
-	<lv-slide><lv-card>...</lv-card></lv-slide>
-	<lv-slide><lv-card>...</lv-card></lv-slide>
+					<lv-code lang="html"><script type="text/plain">
+<lv-carousel bleed="full">
+	<lv-card>...</lv-card>
+	<lv-card>...</lv-card>
 </lv-carousel>
 					</script></lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
+				</lv-card>
+				<lv-card>
 					<h3>Buttons and socials</h3>
-					<lv-code data-lang="html"><script type="text/plain">
+					<lv-code lang="html"><script type="text/plain">
 <lv-socials>
-	<a href="https://github.com/you" data-kind="github" aria-label="GitHub">
-		<i class="lv-icon i-github" aria-hidden="true"></i>
+	<a href="https://github.com/you" kind="github" aria-label="GitHub">
+		<lv-i set="brands" aria-label="GitHub">&#xF09B;</lv-i>
 	</a>
 </lv-socials>
 
 <lv-buttons>
 	<a data-kind="telegram" href="tg://resolve?domain=your_username">
-		<i class="lv-icon i-telegram" aria-hidden="true"></i>Telegram
+		<lv-i set="brands" aria-label="Telegram">&#xF2C6;</lv-i>Telegram
 	</a>
 	<a data-kind="github" href="https://github.com/devoln/landvoln">View repo</a>
 </lv-buttons>
 					</script></lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
+				</lv-card>
+				<lv-card>
 					<h3>Feature list</h3>
-					<lv-code data-lang="html"><script type="text/plain">
-<lv-feature-list>
-	<lv-feature icon="i-diag">Readable plain HTML</lv-feature>
-	<lv-feature icon="i-diag">Minimal JS</lv-feature>
-</lv-feature-list>
+					<lv-code lang="html"><script type="text/plain">
+<ul class="lv-features">
+	<li><lv-i icon="diag"></lv-i>Readable plain HTML</li>
+	<li><lv-i icon="diag"></lv-i>Minimal JS</li>
+</ul>
 					</script></lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
+				</lv-card>
+				<lv-card>
 					<h3>Grid + cards</h3>
-					<lv-code data-lang="html">
+					<lv-code lang="html">
 <template>
 <lv-grid cols="3">
-	<div class="lv-grid__item">
-		<div class="lv-grid__icon i-star"></div>
-		<div>Custom HTML tags</div>
-	</div>
+<div>
+	<lv-i class="lv-grid__icon">★</lv-i>
+	<div>Custom HTML tags</div>
+</div>
 </lv-grid>
 
 <lv-card>
-	<h3>A simple card</h3>
-	<p class="lv-muted">Use cards inside carousels or sections.</p>
+<h3>A simple card</h3>
+<p class="lv-muted">Use cards inside carousels or sections.</p>
 </lv-card>
 </template>
 					</lv-code>
-				</lv-card></lv-slide>
+				</lv-card>
 			</lv-carousel>
 			<lv-divider></lv-divider>
-		</lv-section>
+		</section>
 
-		<lv-section>
-			<h2><b>C-like highlighting</b></h2>
-			<p class="lv-muted">Works for C, C++, C#, and TypeScript (shared lightweight highlighter).</p>
-			<lv-carousel data-bleed="full" data-kind="code">
-				<lv-slide><lv-card>
+
+		<section>
+			<h2><b>Programming language code highlighting</b></h2>
+			<p class="lv-muted">Very lightweight highlighter supporting multiple languages.</p>
+			<lv-carousel bleed="full" kind="code">
+				<lv-card>
 					<h3>C (macros + struct)</h3>
-					<lv-code data-lang="c"><script type="text/plain">
+					<lv-code lang="c"><script type="text/plain">
+// Strings + macros
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 
 typedef struct Vec2 { int x; int y; } Vec2;
@@ -235,12 +226,14 @@ int clamp(int v, int lo, int hi) {
 	if(v > hi) return hi;
 	return v;
 }
-					</script></lv-code>
-				</lv-card></lv-slide>
 
-				<lv-slide><lv-card>
+const char* label = "ok";
+					</script></lv-code>
+				</lv-card>
+				<lv-card>
 					<h3>C++ (template + RAII)</h3>
-					<lv-code data-lang="cpp"><script type="text/plain">
+					<lv-code lang="cpp"><script type="text/plain">
+// Templates + strings
 template <typename T>
 class Box {
 	T value;
@@ -250,12 +243,32 @@ class Box {
 auto make_box() {
 	return Box<int>(42);
 }
-					</script></lv-code>
-				</lv-card></lv-slide>
 
-				<lv-slide><lv-card>
+/* multiline /*
+comment */
+std::string msg = "hi";
+					</script></lv-code>
+				</lv-card>
+				<lv-card>
+					<h3>Python (typing + dataclass)</h3>
+					<lv-code lang="py"><script type="text/plain">
+from dataclasses import dataclass
+
+@dataclass
+class Box:
+	value: int
+
+def make_box(n: int) -> Box:
+	return Box(n)
+
+box = make_box(42) # makes box
+print("Hello, World") # prints Hello World
+					</script></lv-code>
+				</lv-card>
+				<lv-card>
 					<h3>C# (generics + pattern matching)</h3>
-					<lv-code data-lang="cs"><script type="text/plain">
+					<lv-code lang="cs"><script type="text/plain">
+// Pattern matching
 class Cache<T>
 {
 	public T? GetOrDefault(object key) => key switch
@@ -265,11 +278,11 @@ class Cache<T>
 	};
 }
 					</script></lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
-					<h3>TypeScript (types + async)</h3>
-					<lv-code data-lang="ts"><script type="text/plain">
+				</lv-card>
+				<lv-card>
+					<h3>TypeScript (generics + async)</h3>
+					<lv-code lang="ts"><script type="text/plain">
+// Async + strings
 type Result<T> = { ok: true; value: T } | { ok: false; error: string };
 
 export async function fetchJson(url: string): Promise<Result<unknown>> {
@@ -277,15 +290,16 @@ export async function fetchJson(url: string): Promise<Result<unknown>> {
 		const res = await fetch(url);
 		return { ok: true, value: await res.json() };
 	} catch (e) {
+		console.log("Error: ", e);
 		return { ok: false, error: String(e) };
 	}
 }
 					</script></lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
-					<h3>GLSL (types + uniforms)</h3>
-					<lv-code data-lang="glsl"><script type="text/plain">
+				</lv-card>
+				<lv-card>
+					<h3>GLSL (fragment shader)</h3>
+					<lv-code lang="glsl"><script type="text/plain">
+// Texture sample
 uniform sampler2D tex;
 in vec2 uv;
 out vec4 fragColor;
@@ -295,11 +309,11 @@ void main() {
 	fragColor = vec4(c.rgb, 1.0);
 }
 					</script></lv-code>
-				</lv-card></lv-slide>
-
-				<lv-slide><lv-card>
-					<h3>HLSL (struct + semantics)</h3>
-					<lv-code data-lang="hlsl"><script type="text/plain">
+				</lv-card>
+				<lv-card>
+					<h3>HLSL (pixel shader)</h3>
+					<lv-code lang="hlsl"><script type="text/plain">
+// Sample + return a color
 struct VSOut { float4 pos : SV_Position; float2 uv : TEXCOORD0; };
 Texture2D tex : register(t0);
 SamplerState samp : register(s0);
@@ -308,30 +322,34 @@ float4 PSMain(VSOut i) : SV_Target {
 	return tex.Sample(samp, i.uv);
 }
 					</script></lv-code>
-				</lv-card></lv-slide>
+				</lv-card>
 			</lv-carousel>
 			<lv-divider></lv-divider>
-		</lv-section>
+		</section>
 
-		<lv-section>
+		<section>
 			<h3 class="lv-callout">Ready to use it in your own landing?</h3>
 			<lv-buttons>
-				<a data-kind="github" href="https://github.com/devoln/landvoln"><i class="lv-icon i-github" aria-hidden="true"></i>Open LandVoln repository</a>
-				<a data-variant="blue" href="https://github.com/devoln/landvoln">Create your landing (fork)</a>
+				<a data-kind="github" href="https://github.com/devoln/landvoln"><lv-i set="brands" aria-label="GitHub">&#xF09B;</lv-i>Open LandVoln repository</a>
 			</lv-buttons>
-		</lv-section>
+		</section>
+	</main>
+	<footer>
+		<lv-socials>
+			<a href="https://github.com/devoln/landvoln" style="background: #111827;"><lv-i set="brands" aria-label="GitHub">&#xF09B;</lv-i></a>
+			<a href="https://x.com/" style="background: #000000;"><lv-i set="brands" aria-label="X">&#xE61B;</lv-i></a>
+			<a href="https://www.linkedin.com/" style="background: #0A66C2;"><lv-i set="brands" aria-label="LinkedIn">&#xF0E1;</lv-i></a>
+			<a href="https://t.me/your_username" style="background: #229ED9;"><lv-i set="brands" aria-label="Telegram">&#xF2C6;</lv-i></a>
+			<a href="https://discord.gg/your_invite" style="background: #5865F2;"><lv-i set="brands" aria-label="Discord">&#xF392;</lv-i></a>
+			<a href="https://slack.com/" style="background: #4A154B;"><lv-i set="brands" aria-label="Slack">&#xF198;</lv-i></a>
+			<a href="https://youtube.com/@your_channel" style="background: #FF0000;"><lv-i set="brands" aria-label="YouTube">&#xF167;</lv-i></a>
+			<a href="https://reddit.com/u/your_username" style="background: #FF4500;"><lv-i set="brands" aria-label="Reddit">&#xF281;</lv-i></a>
+			<a href="mailto:you@example.com" style="background: #64748B;"><lv-i aria-label="Email">&#xF0E0;</lv-i></a>
+			<a href="https://your-domain.com" style="background: #0EA5E9;"><lv-i icon="globe" aria-label="Website"></lv-i></a>
+		</lv-socials>
+	</footer>
 
-		<lv-section>
-			<lv-buttons>
-				<lv-socials>
-					<a href="https://github.com/devoln/landvoln" aria-label="GitHub" data-kind="github"><i class="lv-icon i-github" aria-hidden="true"></i></a>
-					<a href="https://x.com/" aria-label="X" data-kind="x"><i class="lv-icon i-x" aria-hidden="true"></i></a>
-					<a href="https://www.linkedin.com/" aria-label="LinkedIn" data-kind="linkedin"><i class="lv-icon i-linkedin" aria-hidden="true"></i></a>
-				</lv-socials>
-			</lv-buttons>
-		</lv-section>
-	</lv-page>
-
+	<link rel="stylesheet" href="../assets/fonts/icons/icons.css" />
 	<script type="module" src="../framework/components.js"></script>
 	<script type="module" src="../framework/code.js"></script>
 </body>

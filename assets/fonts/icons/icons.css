@@ -1,62 +1,20 @@
 @font-face {
-	font-family: icons;
-	src: url(icons.woff2) format("woff2");
+	font-family: fa-brands;
+	/* src: url(icons.woff2) format("woff2"); */
+	src: url(fa-brands-400.woff2) format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+}
+@font-face {
+	font-family: fa-regular;
+	/* src: url(icons.woff2) format("woff2"); */
+	src: url(fa-regular-400.woff2) format("woff2");
 	font-weight: 400;
 	font-style: normal;
 	font-display: block;
 }
 
-:root {
-	--lv-icon-diag: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='1'/%3E%3Cpath d='M15 9l-6 6' fill='none' stroke='black' stroke-width='1' stroke-linecap='round'/%3E%3Cpath d='M15 15V9H9' fill='none' stroke='black' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
-	--lv-icon-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M29.92 12.992l-1.6 1.632-4.384 4.256-.672.704c-.096.096-.128.256-.128.384l1.632 9.472v.064c-.032.032-.16-.032-.32-.128l-1.664-.864-6.624-3.488c-.192-.096-.32-.064-.48.032l-8.288 4.352c-.032.032-.096.064-.128.064-.096.032-.128-.064-.096-.256l.352-2.208 1.216-7.104c.032-.096-.032-.256-.128-.352L4.32 15.328 2.08 12.96c-.128-.128-.096-.256.096-.288l1.28-.192 5.792-.832 1.952-.288c.256-.032.352-.128.48-.352l4.064-8.256c.032-.064.064-.096.096-.16.032-.096.128-.128.192-.032.032.032.064.096.064.128l4.128 8.352a.53.53 0 0 0 .448.32l9.152 1.344c.192 0 .224.128.096.288z'/%3E%3C/svg%3E");
-	--lv-icon-copy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H10V7h9v14z'/%3E%3C/svg%3E");
-	--lv-icon-github: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.19-3.37-1.19-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.57 9.57 0 0 1 5 0c1.9-1.29 2.74-1.02 2.74-1.02.56 1.37.21 2.39.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.86v2.76c0 .26.18.57.69.48A10 10 0 0 0 12 2z'/%3E%3C/svg%3E");
-	--lv-icon-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M18.9 2H22l-6.77 7.74L23.2 22h-6.2l-4.86-6.4L6.56 22H3.46l7.28-8.32L1 2h6.36l4.4 5.82L18.9 2zm-1.09 18h1.72L6.3 3.94H4.45L17.81 20z'/%3E%3C/svg%3E");
-	--lv-icon-linkedin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M6.94 6.5a1.94 1.94 0 1 1 0-3.88 1.94 1.94 0 0 1 0 3.88zM5.5 21V8.2h2.9V21H5.5zm5.2-12.8h2.78v1.75h.04c.39-.74 1.34-1.52 2.76-1.52 2.95 0 3.5 1.94 3.5 4.46V21h-2.9v-7.06c0-1.68-.03-3.84-2.34-3.84-2.34 0-2.7 1.83-2.7 3.72V21h-2.9V8.2z'/%3E%3C/svg%3E");
-	--lv-icon-discord: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M16.9 6.2c-1.1-.5-2.2-.8-3.4-1l-.4.8c-1.2-.2-2.4-.2-3.6 0l-.4-.8c-1.2.2-2.3.5-3.4 1C1.5 10 1 13.7 1.2 17.3c1.5 1.1 3.2 1.9 5 2.3l.6-1c-.7-.3-1.4-.7-2-1.1l.5-.4c2.6 1.2 5.6 1.2 8.2 0l.5.4c-.6.4-1.3.8-2 1.1l.6 1c1.8-.4 3.5-1.2 5-2.3.3-3.6-.3-7.3-1.7-11.1zM8.6 14.6c-.7 0-1.3-.6-1.3-1.4s.6-1.4 1.3-1.4c.7 0 1.3.6 1.3 1.4s-.6 1.4-1.3 1.4zm6.8 0c-.7 0-1.3-.6-1.3-1.4s.6-1.4 1.3-1.4c.7 0 1.3.6 1.3 1.4s-.6 1.4-1.3 1.4z'/%3E%3C/svg%3E");
-	--lv-icon-slack: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 14.5a1.5 1.5 0 0 1-3 0 1.5 1.5 0 0 1 3 0zm1 0a1.5 1.5 0 0 1 3 0v5a1.5 1.5 0 0 1-3 0v-5zm1-7a1.5 1.5 0 0 1 0-3 1.5 1.5 0 0 1 0 3zm0 1a1.5 1.5 0 0 1 0 3h-5a1.5 1.5 0 0 1 0-3h5zm7 1a1.5 1.5 0 0 1 3 0 1.5 1.5 0 0 1-3 0zm-1 0a1.5 1.5 0 0 1-3 0v-5a1.5 1.5 0 0 1 3 0v5zm-1 7a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 1 0-3zm0-1a1.5 1.5 0 0 1 0-3h5a1.5 1.5 0 0 1 0 3h-5z'/%3E%3C/svg%3E");
-	--lv-icon-youtube: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M21.6 7.2s-.2-1.6-.8-2.3c-.8-.9-1.6-.9-2-1C16 3.5 12 3.5 12 3.5h0s-4 0-6.8.4c-.4.1-1.2.1-2 1-.6.7-.8 2.3-.8 2.3S2 9 2 10.8v1.7c0 1.8.4 3.6.4 3.6s.2 1.6.8 2.3c.8.9 1.9.9 2.4 1 1.7.2 6.4.4 6.4.4s4 0 6.8-.4c.4-.1 1.2-.1 2-1 .6-.7.8-2.3.8-2.3s.4-1.8.4-3.6v-1.7c0-1.8-.4-3.6-.4-3.6zM10 14.7V8.9l6 2.9-6 2.9z'/%3E%3C/svg%3E");
-	--lv-icon-reddit: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M22 12.1c0-1-.8-1.8-1.8-1.8-.5 0-1 .2-1.3.6-1.5-1-3.6-1.7-6-1.8l1.2-3.8 3.3.8c.1.8.8 1.4 1.6 1.4.9 0 1.7-.8 1.7-1.7S19.9 4 19 4c-.6 0-1.2.3-1.5.8l-3.8-.9c-.3-.1-.7.1-.8.4L11.3 9c-2.6.1-4.8.8-6.3 1.8-.3-.4-.8-.6-1.3-.6C2.8 10.2 2 11 2 12.1c0 .7.4 1.2.9 1.5-.1.4-.1.9-.1 1.4 0 3.4 4.1 6.1 9.2 6.1s9.2-2.7 9.2-6.1c0-.5 0-1-.1-1.4.5-.3.9-.9.9-1.5zM8.5 14.6c-.8 0-1.4-.6-1.4-1.4s.6-1.4 1.4-1.4 1.4.6 1.4 1.4-.6 1.4-1.4 1.4zm7 0c-.8 0-1.4-.6-1.4-1.4s.6-1.4 1.4-1.4 1.4.6 1.4 1.4-.6 1.4-1.4 1.4zM12 18.7c-1.7 0-3.2-.6-4.1-1.6-.2-.2-.2-.6.1-.8.2-.2.6-.2.8.1.7.7 1.9 1.2 3.2 1.2s2.5-.5 3.2-1.2c.2-.2.6-.2.8-.1.2.2.3.6.1.8-.9 1-2.4 1.6-4.1 1.6z'/%3E%3C/svg%3E");
-	--lv-icon-telegram: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M21.8 4.3c.3-.9-.5-1.7-1.4-1.4L2.8 9.7c-1 .4-1 1.8 0 2.2l4.6 1.5 1.7 5.2c.3 1 1.6 1.2 2.2.4l2.6-3.4 4.9 3.6c.9.7 2.2.2 2.4-.9L21.8 4.3zM9.2 12.8l8.9-5.5c.2-.1.4.2.2.3l-7.4 6.8-.3 3.7c0 .3-.4.4-.5.1l-1.5-4.8-4.3-1.4c-.3-.1-.3-.5 0-.6l14.1-5.3c.3-.1.4.2.2.3L9.2 12.8z'/%3E%3C/svg%3E");
-	--lv-icon-mail: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 4.2V18h16V8.2l-8 5-8-5zM20 6H4l8 5 8-5z'/%3E%3C/svg%3E");
-	--lv-icon-globe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm7.9 9h-3.1a15.9 15.9 0 0 0-1.3-6.1A8 8 0 0 1 19.9 11zM12 4c.9 1.3 1.6 3.4 1.9 6H10.1c.3-2.6 1-4.7 1.9-6zM4.1 13h3.1c.2 2.2.8 4.2 1.7 5.8A8 8 0 0 1 4.1 13zm3.1-2H4.1a8 8 0 0 1 4.8-6.8C8 5.8 7.4 7.8 7.2 11zm2.9 2h3.8c-.3 2.6-1 4.7-1.9 6-.9-1.3-1.6-3.4-1.9-6zm6.7 0h3.1a8 8 0 0 1-4.8 6.8c.9-1.6 1.5-3.6 1.7-5.8zM16.8 11H13.9c-.2-2.2-.8-4.2-1.7-5.8A8 8 0 0 1 19.9 11h-3.1z'/%3E%3C/svg%3E");
-}
-
-.i-diag { --lv-icon-url: var(--lv-icon-diag); }
-.i-star { --lv-icon-url: var(--lv-icon-star); }
-
-.i-copy { --lv-icon-url: var(--lv-icon-copy); }
-
-.i-github { --lv-icon-url: var(--lv-icon-github); }
-.i-x { --lv-icon-url: var(--lv-icon-x); }
-.i-linkedin { --lv-icon-url: var(--lv-icon-linkedin); }
-.i-discord { --lv-icon-url: var(--lv-icon-discord); }
-.i-slack { --lv-icon-url: var(--lv-icon-slack); }
-.i-youtube { --lv-icon-url: var(--lv-icon-youtube); }
-.i-reddit { --lv-icon-url: var(--lv-icon-reddit); }
-.i-telegram { --lv-icon-url: var(--lv-icon-telegram); }
-.i-mail { --lv-icon-url: var(--lv-icon-mail); }
-.i-globe { --lv-icon-url: var(--lv-icon-globe); }
-
-.fab,
-.fai {
-	font-family: icons !important;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-font-smoothing: antialiased;
-	display: inline-block;
-	font-style: normal;
-	font-variant: normal;
-	text-rendering: auto;
-	line-height: 1;
-}
-
-.fai:before {
-	line-height: 1;
-}
-
-.fa-wh:before { content: "\e001"; }
-.fa-tg:before { content: "\e007"; }
-.fa-vk:before { content: "\e008" !important; }
-.fa-ig:before { content: "\e00c"; }
-.fa-dz:before { content: "\e90d"; }
-.fa-yz:before { content: "\e940"; }
+lv-i[icon="diag"] {--lv-icon-url: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%3E%3Ccircle%20cx='12'%20cy='12'%20r='9'%20fill='none'%20stroke='black'%20stroke-width='1'/%3E%3Cpath%20d='M15%209l-6%206'%20fill='none'%20stroke='black'%20stroke-width='1'%20stroke-linecap='round'/%3E%3Cpath%20d='M15%2015V9H9'%20fill='none'%20stroke='black'%20stroke-width='1'%20stroke-linecap='round'/%3E%3C/svg%3E");}
+lv-i[icon="globe"] {--lv-icon-url: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%3E%3Cpath%20d='M12%202a10%2010%200%201%200%200%2020%2010%2010%200%200%200%200-20zm7.9%209h-3.1a15.9%2015.9%200%200%200-1.3-6.1A8%208%200%200%201%2019.9%2011zM12%204c.9%201.3%201.6%203.4%201.9%206H10.1c.3-2.6%201-4.7%201.9-6zM4.1%2013h3.1c.2%202.2.8%204.2%201.7%205.8A8%208%200%200%201%204.1%2013zm3.1-2H4.1a8%208%200%200%201%204.8-6.8C8%205.8%207.4%207.8%207.2%2011zm2.9%202h3.8c-.3%202.6-1%204.7-1.9%206-.9-1.3-1.6-3.4-1.9-6zm6.7%200h3.1a8%208%200%200%201-4.8%206.8c.9-1.6%201.5-3.6%201.7-5.8zM16.8%2011H13.9c-.2-2.2-.8-4.2-1.7-5.8A8%208%200%200%201%2019.9%2011h-3.1z'/%3E%3C/svg%3E");}
+lv-i[icon="dzen"] {--lv-icon-url: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='129'%20height='129'%20viewBox='0%200%20129%20129'%3E%3Cpath%20fill='black'%20d='M128.389%2062.7804C128.389%2062.1406%20127.869%2061.6108%20127.229%2061.5808C104.266%2060.7111%2090.2906%2057.782%2080.5136%2048.0051C70.7167%2038.2081%2067.7976%2024.2225%2066.9279%201.20969C66.9079%200.569886%2066.3781%200.0500488%2065.7283%200.0500488H63.0491C62.4093%200.0500488%2061.8795%200.569886%2061.8495%201.20969C60.9797%2024.2125%2058.0607%2038.2081%2048.2637%2048.0051C38.4768%2057.792%2024.5111%2060.7111%201.54831%2061.5808C0.908509%2061.6008%200.388672%2062.1306%200.388672%2062.7804V65.4596C0.388672%2066.0994%200.908509%2066.6292%201.54831%2066.6592C24.5111%2067.529%2038.4868%2070.458%2048.2637%2080.235C58.0407%2090.0119%2060.9597%20103.958%2061.8395%20126.88C61.8595%20127.52%2062.3893%20128.04%2063.0391%20128.04H65.7283C66.3681%20128.04%2066.8979%20127.52%2066.9279%20126.88C67.8076%20103.958%2070.7267%2090.0119%2080.5036%2080.235C90.2906%2070.448%20104.256%2067.529%20127.219%2066.6592C127.859%2066.6392%20128.379%2066.1094%20128.379%2065.4596V62.7804H128.389Z'/%3E%3C/svg%3E");}

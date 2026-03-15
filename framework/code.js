@@ -8,10 +8,19 @@ const escapeHtml = (s) => s
 
 const highlightHtml = (escaped) => {
 	let out = escaped;
+	const stashed = [];
+	const stash = (html) => {
+		const id = stashed.length;
+		stashed.push(html);
+		return `\u0000lv${id}x\u0000`;
+	};
+	const restore = (s) => s.replaceAll(/\u0000lv(\d+)x\u0000/g, (_, n) => stashed[Number(n)] ?? '');
+
+	out = out.replaceAll(/&lt;!--[^]*?--&gt;/g, (m) => stash('<span class="lv-tok-comment">' + m + '</span>'));
 	out = out.replaceAll(/(&lt;\/?)([a-zA-Z0-9-]+)/g, '$1<span class="lv-tok-tag">$2</span>');
 	out = out.replaceAll(/\s([a-zA-Z-:]+)=(&quot;[^\n]*?&quot;|&#39;[^\n]*?&#39;)/g, ' <span class="lv-tok-attr">$1</span>=<span class="lv-tok-string">$2</span>');
-	out = out.replaceAll(/(&quot;[^\n]*?&quot;|&#39;[^\n]*?&#39;)/g, '<span class="lv-tok-string">$1</span>');
-	return out;
+	out = out.replaceAll(/(&quot;[^\n]*?&quot;|&#39;[^\n]*?&#39;)/g, (m) => stash('<span class="lv-tok-string">' + m + '</span>'));
+	return restore(out);
 };
 
 
@@ -25,18 +34,44 @@ const highlightCss = (escaped) => {
 	return out;
 };
 
-
-const highlightJs = (escaped) => {
-	let out = escaped;
-	out = out.replaceAll(/(^|\n)(\s*)(\/\/.*)$/g, '$1$2<span class="lv-tok-comment">$3</span>');
-	out = out.replaceAll(/(&quot;[^\n]*?&quot;|&#39;[^\n]*?&#39;)/g, '<span class="lv-tok-string">$1</span>');
-	out = out.replaceAll(/\b(const|let|var|function|class|return|if|else|for|while|break|continue|new|this|throw|try|catch|finally|async|await)\b/g, '<span class="lv-tok-keyword">$1</span>');
-	out = out.replaceAll(/\b([0-9]+)\b/g, '<span class="lv-tok-number">$1</span>');
-	return out;
-};
-
-
 const joinKeywords = (words) => words.map((w) => w.replaceAll('+', '\\+')).join('|');
+
+
+const highlightPython = (escaped) => {
+	let out = escaped;
+	const stashed = [];
+	const stash = (html) => {
+		const id = stashed.length;
+		stashed.push(html);
+		return `\u0000lv${id}x\u0000`;
+	};
+	const restore = (s) => s.replaceAll(/\u0000lv(\d+)x\u0000/g, (_, n) => stashed[Number(n)] ?? '');
+
+	out = out.replaceAll(/(&quot;[^\n]*?&quot;|&#39;[^\n]*?&#39;|`[^`\n]*`)/g, (m) => stash('<span class="lv-tok-string">' + m + '</span>'));
+	out = out.replaceAll(/#[^\n]*/g, (m) => stash('<span class="lv-tok-comment">' + m + '</span>'));
+	out = out.replaceAll(/(^|\n)(\s*)(@[a-zA-Z_][a-zA-Z0-9_]*)/g, (m, nl, ws, d) => `${nl}${ws}${stash('<span class="lv-tok-keyword">' + d + '</span>')}`);
+
+	const keywords = [
+		'False','None','True','and','as','assert','async','await','break','class','continue','def','del','elif','else','except','finally','for','from','global','if','import','in','is','lambda','nonlocal','not','or','pass','raise','return','try','while','with','yield'
+	];
+
+	out = out.replaceAll(new RegExp(`\\b(${joinKeywords(keywords)})\\b`, 'g'), '<span class="lv-tok-keyword">$1</span>');
+	out = out.replaceAll(/\\b([0-9]+(?:\.[0-9]+)?)\\b/g, '<span class="lv-tok-number">$1</span>');
+
+	const builtins = [
+		'print','len','range','enumerate','min','max','sum','map','filter','zip',
+		'int','float','str','bool','list','dict','set','tuple','object'
+	];
+	out = out.replaceAll(new RegExp(`\\b(${joinKeywords(builtins)})\\b`, 'g'), '<span class="lv-tok-keyword">$1</span>');
+
+	const nonFnLike = new Set([...keywords]);
+	out = out.replaceAll(/(^|[^a-zA-Z0-9_])([a-zA-Z_][a-zA-Z0-9_]*)(?=\s*\()/g, (m, prefix, name) => {
+		if(nonFnLike.has(name)) return m;
+		return `${prefix}<span class="lv-tok-fn">${name}</span>`;
+	});
+
+	return restore(out);
+};
 
 
 const highlightCLike = (escaped, keywords, options = {}) => {
@@ -45,13 +80,13 @@ const highlightCLike = (escaped, keywords, options = {}) => {
 	const stash = (html) => {
 		const id = stashed.length;
 		stashed.push(html);
-		return `\u0000${id}\u0000`;
+		return `\u0000lv${id}x\u0000`;
 	};
-	const restore = (s) => s.replaceAll(/\u0000(\d+)\u0000/g, (_, n) => stashed[Number(n)] ?? '');
+	const restore = (s) => s.replaceAll(/\u0000lv(\d+)x\u0000/g, (_, n) => stashed[Number(n)] ?? '');
 
-	out = out.replaceAll(/\/\*[^]*?\*\//g, (m) => stash(`<span class="lv-tok-comment">${m}</span>`));
-	out = out.replaceAll(/(^|\n)(\s*)(\/\/.*)$/g, (m, nl, ws, c) => `${nl}${ws}${stash(`<span class="lv-tok-comment">${c}</span>`)}`);
-	out = out.replaceAll(/(&quot;[^\n]*?&quot;|&#39;[^\n]*?&#39;)/g, (m) => stash(`<span class="lv-tok-string">${m}</span>`));
+	out = out.replaceAll(/\/\*[^]*?\*\//g, (m) => stash('<span class="lv-tok-comment">' + m + '</span>'));
+	out = out.replaceAll(/(^|\n)(\s*)(\/\/[^\n]*)/g, (m, nl, ws, c) => `${nl}${ws}${stash('<span class="lv-tok-comment">' + c + '</span>')}`);
+	out = out.replaceAll(/(&quot;[^\n]*?&quot;|&#39;[^\n]*?&#39;|`[^`\n]*`)/g, (m) => stash('<span class="lv-tok-string">' + m + '</span>'));
 
 	if(options.preproc)
 	{
@@ -119,7 +154,7 @@ const tsKeywords = [
 
 const glslKeywords = [
 	'const','uniform','in','out','inout','attribute','varying','layout',
-	'centroid','flat','smooth','noperspective','precision','highp','mediump', 'lowp',
+	'centroid','flat','smooth','noperspective','precision','highp','mediump','lowp',
 	'float','double','int','uint','bool','void',
 	'vec2','vec3','vec4','dvec2','dvec3','dvec4','ivec2','ivec3','ivec4','uvec2','uvec3','uvec4','bvec2','bvec3','bvec4',
 	'mat2','mat3','mat4','sampler2D','samplerCube',
@@ -141,11 +176,12 @@ const applyHighlighting = () => {
 
 	Cls.prototype.highlight = function() {
 		if(!this.codeEl) return;
-		const lang = (this.getAttribute('data-lang') || '').toLowerCase();
+		const lang = (this.getAttribute('lang') || '').toLowerCase();
 		const escaped = escapeHtml(this.rawText || '');
 		let html = escaped;
 		if(lang === 'html') html = highlightHtml(escaped);
 		else if(lang === 'css') html = highlightCss(escaped);
+		else if(lang === 'py' || lang === 'python') html = highlightPython(escaped);
 		else if(lang === 'js' || lang === 'javascript') html = highlightCLike(escaped, tsKeywords);
 		else if(lang === 'c') html = highlightCLike(escaped, cKeywords, { preproc: true });
 		else if(lang === 'cpp' || lang === 'c++') html = highlightCLike(escaped, cppKeywords, { preproc: true });

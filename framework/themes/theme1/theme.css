@@ -52,25 +52,99 @@
 	--lv-button-telegram-bg: #61a8de;
 	--lv-button-telegram-fg: #fff;
 
-	--lv-card-bg: #E9DFDA;
 	--lv-price-size: 20px;
-	--lv-pricing-title-size: 24px;
+	--lv-pricing-title-size: 20px;
 	--lv-code-tab-size: 4;
-
-	--lv-header-image: url(../../assets/images/headers/68350739.jpg);
 }
 
-lv-header { --lv-header-bg: #b0c5d7; }
-lv-banner { --lv-banner-bg: #c7d8b6; }
+.lv header {
+	background-color: #b0c5d7;
+	background-image: url(../../../assets/images/headers/68350739.jpg);
+	gap: var(--lv-gap, 10px);
+}
+.lv-banner {
+	background: #c7d8b6;
+}
 
-body {
+body.lv {
 	background-image: url(../../../assets/images/backgrounds/26.webp);
 }
 
-.lv-tok-comment { color: rgba(51,65,85,0.75); }
-.lv-tok-string { color: rgba(22,163,74,0.95); }
-.lv-tok-keyword { color: rgba(194,65,12,0.95); }
+.lv, lv-carousel, lv-code pre {
+	scrollbar-color: rgba(255,255,255,0.45) rgba(255,255,255,0.15);
+	scrollbar-width: thin;
+}
+pre::-webkit-scrollbar { height: 10px; width: 10px; }
+pre::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); border-radius: 999px; }
+pre::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 999px; }
+
+lv-code:not(:defined),
+lv-code {
+	background: rgba(0,0,0,0.35);
+	border: 1px solid rgba(255,255,255,0.12);
+}
+lv-code:not(:defined) { color: rgba(36,20,12,0.72); }
+lv-code pre { color: rgba(36,20,12,0.92); }
+
+lv-code .lv-code__copy {
+	background: rgba(255,255,255,0.10);
+	color: rgba(255,255,255,0.85);
+}
+
+.lv-tok-comment { color: rgba(71,85,105,0.75); }
+.lv-tok-string { color: rgba(21,128,61,0.92); }
+.lv-tok-keyword { color: rgba(180,83,9,0.95); }
 .lv-tok-fn { color: rgba(2,132,199,0.95); }
 .lv-tok-tag { color: rgba(2,132,199,0.95); }
 .lv-tok-attr { color: rgba(161,98,7,0.95); }
-.lv-tok-number { color: rgba(220,38,38,0.95); }
+.lv-tok-number { color: rgba(190,24,93,0.90); }
+
+.lv-slogan { color: var(--lv-color-slogan, rgb(230, 119, 0)) !important; }
+
+lv-card .lv-price {
+	margin-top: auto;
+	text-align: center;
+	font-size: var(--lv-price-size, 20px);
+	line-height: 1.1;
+}
+.lv-price s { opacity: 0.6; }
+
+.lv {
+	font-family: var(--lv-font-body, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+	font-size: 16px;
+	line-height: 1.45;
+	color: var(--lv-color-text);
+}
+.lv h1, .lv h2, .lv h3 {
+	font-family: var(--lv-font-accent, inherit);
+	font-weight: var(--lv-heading-weight, inherit);
+	text-transform: uppercase;
+	color: var(--lv-color-text);
+}
+
+.lv h2 {
+	text-align: center;
+	color: var(--lv-color-brand-text, #5d755d);
+	margin: 0;
+	font-size: 30px;
+	line-height: 1.25;
+	letter-spacing: 0px;
+}
+
+.lv-text-green { color: var(--lv-color-brand-text, #5d755d); }
+.lv .lv-callout {
+	text-align: center;
+	color: var(--lv-color-slogan, rgb(230, 119, 0)) !important;
+	margin: 0;
+	font-weight: 400;
+}
+
+lv-card {
+	background: #E9DFDA;
+	border-radius: 16px;
+	padding: 14px;
+	box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+}
+
+lv-card h3 { margin: 0 0 8px; font-size: 16px; font-weight: 400; text-transform: none; }
+lv-card p { margin: 0; }
