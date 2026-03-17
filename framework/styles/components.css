@@ -416,7 +416,7 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	cursor: pointer;
 }
 
-.lv-carousel__overlay {
+.lv-lightbox {
 	position: fixed;
 	inset: 0;
 	background: rgba(0,0,0,0.85);
@@ -427,7 +427,8 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	box-sizing: border-box;
 }
 
-.lv-carousel__overlay-slide {
+
+.lv-lightbox__slide {
 	width: min(960px, calc(100vw - 24px));
 	height: calc(100vh - 24px);
 	max-width: 100%;
@@ -437,13 +438,13 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	justify-content: center;
 }
 
-.lv-carousel__overlay-content {
+.lv-lightbox__content {
 	width: 100%;
 	height: 100%;
-	pointer-events: none;
+	pointer-events: auto;
 }
 
-.lv-carousel__overlay-item {
+.lv-lightbox__item {
 	width: 100%;
 	height: 100%;
 	display: grid;
@@ -456,14 +457,8 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	touch-action: pan-y;
 }
 
-.lv-carousel__overlay-item.lv-card {
-	padding: 0;
-	background: transparent;
-	box-shadow: none;
-}
-
-.lv-carousel__overlay-item > img:first-child,
-.lv-carousel__overlay-item > :first-child:is(img) {
+.lv-lightbox__item > img:first-child,
+.lv-lightbox__item > :first-child:is(img) {
 	grid-row: 1;
 	align-self: stretch;
 	justify-self: center;
@@ -476,8 +471,7 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	object-position: center center;
 }
 
-.lv-carousel__overlay-item > h3,
-.lv-carousel__overlay-title {
+.lv-lightbox__item > h3, .lv .lv-lightbox__title {
 	grid-row: 1;
 	position: absolute;
 	left: 50%;
@@ -486,7 +480,7 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	padding: 0 16px;
 	box-sizing: border-box;
 	z-index: 3;
-	color: rgba(255,255,255,0.992);
+	color: white;
 	text-shadow: 0 1px 2px rgba(0,0,0,0.65);
 	pointer-events: none;
 	transform: translate(-50%, 0);
@@ -494,13 +488,13 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	text-align: center;
 }
 
-.lv-carousel__overlay-title.is-over-media {
+.lv-lightbox__title.is-over-media {
 	padding: 6px 18px 8px;
 	text-shadow: 0 2px 6px rgba(0,0,0,0.75);
 	transform: translate(-50%, -4px);
 }
 
-.lv-carousel__overlay-chelochka {
+.lv-lightbox__h3underlay {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -514,11 +508,11 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	transition: opacity 160ms ease;
 }
 
-.lv-carousel__overlay-chelochka.is-visible {
+.lv-lightbox__h3underlay.is-visible {
 	opacity: 1;
 }
 
-.lv-carousel__overlay-item > p {
+.lv-lightbox__item > p {
 	grid-row: 2;
 	margin: 0;
 	padding: 18px 22px 24px;
@@ -526,7 +520,7 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	color: rgba(255,255,255,0.92);
 }
 
-.lv-carousel__overlay-arrows {
+.lv-lightbox__arrows {
 	position: fixed;
 	top: 50%;
 	left: max(12px, env(safe-area-inset-left));
@@ -538,7 +532,7 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	pointer-events: none;
 }
 
-.lv-carousel__overlay-arrow {
+.lv-lightbox__arrow {
 	appearance: none;
 	border: 0;
 	width: 48px;
@@ -556,41 +550,17 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	pointer-events: auto;
 }
 
-.lv-carousel__overlay-arrow:hover {
+.lv-lightbox__arrow:hover {
 	opacity: 0.92;
 	transform: translateY(-1px);
 }
 
-.lv-carousel__overlay-arrow:active {
+.lv-lightbox__arrow:active {
 	transform: translateY(1px);
 }
 
-@media (max-width: 640px) {
-	.lv-carousel__overlay {
-		padding: 8px;
-	}
-	.lv-carousel__overlay-slide {
-		width: calc(100vw - 16px);
-		height: calc(100dvh - 16px);
-	}
-	.lv-carousel__overlay-arrows {
-		left: max(8px, env(safe-area-inset-left));
-		right: max(8px, env(safe-area-inset-right));
-	}
-	.lv-carousel__overlay-arrow {
-		width: 40px;
-		height: 40px;
-		font-size: 24px;
-	}
-	.lv-carousel__overlay-close {
-		top: max(6px, env(safe-area-inset-top));
-		right: max(6px, env(safe-area-inset-right));
-		font-size: 34px;
-		padding: 10px 12px;
-	}
-}
 
-.lv-carousel__overlay-close {
+.lv-lightbox__close {
 	position: fixed;
 	top: max(10px, env(safe-area-inset-top));
 	right: max(10px, env(safe-area-inset-right));
@@ -606,7 +576,7 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	text-shadow: 0 2px 6px rgba(0,0,0,0.55);
 }
 
-.lv-carousel__overlay-close:active {
+.lv-lightbox__close:active {
 	transform: scale(0.94);
 }
 
