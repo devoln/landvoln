@@ -2,6 +2,7 @@
 html, body.lv {
 	height: 100%;
 	overflow-x: hidden;
+	overscroll-behavior-x: none;
 }
 
 body.lv {
@@ -14,6 +15,60 @@ body.lv {
 	display: grid;
 	gap: var(--lv-page-gap, 12px);
 	justify-items: center;
+}
+
+.lv .lv-checklist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	gap: 10px;
+}
+
+.lv .lv-checklist label {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 14px;
+	border-radius: 14px;
+	border: 1px solid rgba(36,20,12,0.14);
+	background: rgba(255,255,255,0.72);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	cursor: pointer;
+}
+
+.lv .lv-checklist input[type="checkbox"] {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 22px;
+	height: 22px;
+	border-radius: 7px;
+	border: 2px solid rgba(36,20,12,0.25);
+	background: rgba(255,255,255,0.65);
+	display: grid;
+	place-items: center;
+	margin: 0;
+	flex: 0 0 auto;
+}
+
+.lv .lv-checklist input[type="checkbox"]::after {
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 3px;
+	transform: scale(0);
+	transition: transform 120ms ease;
+	background: var(--lv-color-accent, #d8a7a2);
+}
+
+.lv .lv-checklist input[type="checkbox"]:checked::after {
+	transform: scale(1);
+}
+
+.lv .lv-checklist label:has(input[type="checkbox"]:checked) {
+	border-color: rgba(216, 167, 162, 0.65);
+	box-shadow: 0 8px 22px rgba(0,0,0,0.08);
 }
 
 .lv section {
@@ -89,7 +144,7 @@ lv-i[rotate][flip="xy"] { transform: rotate(-90deg) scale(-1); }
 lv-i[spin] { animation: lv-i-spin 1s linear infinite; }
 
 lv-buttons { display: grid; gap: 12px; }
-lv-buttons > a {
+lv-buttons > a, lv-buttons > button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -105,7 +160,14 @@ lv-buttons > a {
 	letter-spacing: 0.4px;
 	width: 100%;
 	box-sizing: border-box;
- }
+}
+
+lv-buttons > button {
+	appearance: none;
+	font: inherit;
+	cursor: pointer;
+}
+
 lv-buttons > a[data-variant="blue"] { --lv-button-bg: var(--lv-button-blue-bg, #6075c9); --lv-button-text: var(--lv-button-blue-fg, #fff); }
 lv-buttons > a[data-kind="whatsapp"] { --lv-button-bg: var(--lv-button-whatsapp-bg, #55cd6c); --lv-button-text: var(--lv-button-whatsapp-fg, #fff); text-transform: none; letter-spacing: 0; }
 lv-buttons > a[data-kind="telegram"] { --lv-button-bg: var(--lv-button-telegram-bg, #61a8de); --lv-button-text: var(--lv-button-telegram-fg, #fff); text-transform: none; letter-spacing: 0; }
@@ -114,7 +176,7 @@ lv-buttons > a[data-kind="x"] { --lv-button-bg: #000000; --lv-button-text: #fff;
 lv-buttons > a[data-kind="linkedin"] { --lv-button-bg: #0A66C2; --lv-button-text: #fff; text-transform: none; letter-spacing: 0; }
 lv-buttons > a > lv-i { font-size: 20px; line-height: 1; color: currentColor; }
 
-lv-code { display: block; }
+lv-code { display: block; min-height: 40px; }
 
 lv-code:not(:defined) {
 	background: var(--lv-code-bg, rgba(0,0,0,0.35));
@@ -355,11 +417,15 @@ lv-carousel[bleed="full"] {
 
 lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 
+lv-carousel[bleed="full"].is-underfilled .lv-carousel__viewport {
+	overflow: hidden;
+}
+
 .lv-carousel__track {
 	display: flex;
 	gap: 12px;
 	overflow-x: auto;
-	overscroll-behavior-x: contain;
+	overscroll-behavior-x: none;
 	-webkit-overflow-scrolling: touch;
 	scrollbar-width: none;
 	scroll-behavior: smooth;
@@ -371,6 +437,11 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	overflow-y: hidden;
 	cursor: grab;
 	touch-action: pan-y;
+}
+
+lv-carousel[bleed="full"].is-underfilled .lv-carousel__track {
+	justify-content: center;
+	overflow-x: hidden;
 }
 
 .lv-carousel__track::-webkit-scrollbar { display: none; }
@@ -425,6 +496,7 @@ lv-carousel[bleed="full"] .lv-carousel__viewport { overflow: visible; }
 	place-items: center;
 	padding: clamp(8px, 2vw, 32px);
 	box-sizing: border-box;
+	overscroll-behavior-x: none;
 }
 
 

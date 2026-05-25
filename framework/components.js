@@ -46,17 +46,24 @@ class LvLightbox
 	#index = -1;
 	#titleCleanup = null;
 	#swipeCleanup = null;
+	#wheelCleanup = null;
 	#keyHandler = null;
 	#onIndexChange;
 	#onClose;
+	#onNavigate;
 	#getMediaBounds = null;
 	#getKeepRects = null;
+	#closePointerId = null;
+	#closePointerStarted = false;
+	#wheelAccumX = 0;
+	#wheelNavigateLock = false;
 
 	constructor(slides, options = {})
 	{
 		this.#slidesSource = slides;
 		this.#onIndexChange = options.onIndexChange || (() => {});
 		this.#onClose = options.onClose || (() => {});
+		this.#onNavigate = options.onNavigate || null;
 	}
 
 	setSlides(slides)
@@ -99,13 +106,39 @@ class LvLightbox
 		if(this.#overlay) return;
 		const overlay = document.createElement('div');
 		overlay.className = 'lv-lightbox';
-		overlay.addEventListener('click', (e) => {
-			if(this.#shouldCloseFromEvent(e)) this.close();
+		overlay.addEventListener('pointerdown', (e) => {
+			if(this.#shouldCloseFromEvent(e))
+			{
+				e.preventDefault();
+				e.stopPropagation();
+			}
+			this.#closePointerId = e.pointerId ?? null;
+			this.#closePointerStarted = this.#shouldCloseFromEvent(e);
 		});
 		overlay.addEventListener('pointerup', (e) => {
-			const type = e?.pointerType || '';
-			if(type !== 'touch' && type !== 'pen') return;
-			if(this.#shouldCloseFromEvent(e)) this.close();
+			if(this.#closePointerId !== (e.pointerId ?? null)) return;
+			const shouldClose = this.#closePointerStarted && this.#shouldCloseFromEvent(e);
+			if(shouldClose)
+			{
+				e.preventDefault();
+				e.stopPropagation();
+			}
+			this.#closePointerId = null;
+			this.#closePointerStarted = false;
+			if(shouldClose)
+			{
+				const suppressClick = (event) => {
+					event.preventDefault();
+					event.stopPropagation();
+					window.removeEventListener('click', suppressClick, true);
+				};
+				window.addEventListener('click', suppressClick, true);
+				window.setTimeout(() => this.close(), 0);
+			}
+		});
+		overlay.addEventListener('pointercancel', () => {
+			this.#closePointerId = null;
+			this.#closePointerStarted = false;
 		});
 
 		const slideWrapper = document.createElement('div');
@@ -120,8 +153,8 @@ class LvLightbox
 
 		const arrows = document.createElement('div');
 		arrows.className = 'lv-lightbox__arrows';
-		const prevBtn = createOverlayButton('lv-lightbox__arrow is-prev', 'Previous slide', '‹', () => this.#setIndex(this.#index - 1));
-		const nextBtn = createOverlayButton('lv-lightbox__arrow is-next', 'Next slide', '›', () => this.#setIndex(this.#index + 1));
+		const prevBtn = createOverlayButton('lv-lightbox__arrow is-prev', 'Previous slide', '‹', () => this.#go(-1));
+		const nextBtn = createOverlayButton('lv-lightbox__arrow is-next', 'Next slide', '›', () => this.#go(1));
 		arrows.append(prevBtn, nextBtn);
 		overlay.append(arrows);
 
@@ -134,11 +167,63 @@ class LvLightbox
 			this.#keyHandler = (e) => {
 				if(!this.#overlay || !this.#overlay.isConnected) return;
 				if(e.key === 'Escape') return void this.close();
-				if(e.key === 'ArrowLeft') return void this.#setIndex(this.#index - 1);
-				if(e.key === 'ArrowRight') return void this.#setIndex(this.#index + 1);
+				if(e.key === 'ArrowLeft') return void this.#go(-1);
+				if(e.key === 'ArrowRight') return void this.#go(1);
 			};
 			window.addEventListener('keydown', this.#keyHandler);
 		}
+	}
+
+	#go(delta)
+	{
+		const slides = this.#getSlidesArray();
+		const nextIndex = this.#index + delta;
+		if(nextIndex >= 0 && nextIndex < slides.length)
+			return void this.#setIndex(nextIndex);
+		if(this.#onNavigate)
+			return void this.#onNavigate(delta);
+		this.#setIndex(nextIndex);
+	}
+
+	#animateGo(delta)
+	{
+		if(this.#wheelNavigateLock) return;
+		const slides = this.#getSlidesArray();
+		const nextIndex = this.#index + delta;
+		if(nextIndex < 0 || nextIndex >= slides.length)
+		{
+			if(this.#onNavigate)
+			{
+				this.#wheelNavigateLock = true;
+				this.#onNavigate(delta);
+				window.setTimeout(() => {
+					this.#wheelNavigateLock = false;
+				}, 280);
+			}
+			return;
+		}
+
+		const activeItem = this.#contentHost?.firstElementChild;
+		if(!(activeItem instanceof HTMLElement))
+		{
+			this.#wheelNavigateLock = true;
+			this.#go(delta);
+			window.setTimeout(() => {
+				this.#wheelNavigateLock = false;
+			}, 280);
+			return;
+		}
+
+		this.#wheelNavigateLock = true;
+		activeItem.style.transition = 'transform 220ms ease, opacity 220ms ease';
+		activeItem.style.transform = `translateX(${delta > 0? -220: 220}px)`;
+		activeItem.style.opacity = '0';
+		window.setTimeout(() => {
+			this.#setIndex(nextIndex);
+		}, 170);
+		window.setTimeout(() => {
+			this.#wheelNavigateLock = false;
+		}, 280);
 	}
 
 	#getSlidesArray()
@@ -204,16 +289,46 @@ class LvLightbox
 		};
 		this.#getMediaBounds = computeMediaBounds;
 
-		const keepNodes = Array.from(clone.querySelectorAll("p"));
+		const keepNodes = Array.from(clone.querySelectorAll("p, button, a, input, select, textarea, label"));
 		keepNodes.push(...(this.#arrows?.children || []));
 		//if(titleEl) keepNodes.push(titleEl);
 		this.#getKeepRects = () => keepNodes
 			.filter((node) => node && node.isConnected)
 			.map((node) => node.getBoundingClientRect());
 
+		this.#wireInteractiveClone(clone, sourceSlide);
+
 		this.#contentHost.replaceChildren(clone);
 		this.#titleCleanup = this.#setupTitleEffects(clone, titleEl, mediaVisual, headerUnderlay, computeMediaBounds);
 		this.#swipeCleanup = this.#attachSwipe(clone);
+		this.#wheelCleanup = this.#attachWheel(clone);
+	}
+
+	#wireInteractiveClone(clone, sourceSlide)
+	{
+		const cloneButtons = Array.from(clone.querySelectorAll('button'));
+		const sourceButtons = Array.from(sourceSlide.querySelectorAll('button'));
+		cloneButtons.forEach((button, index) => {
+			const sourceButton = sourceButtons[index];
+			if(!sourceButton) return;
+			button.disabled = sourceButton.disabled;
+			button.addEventListener('click', (event) => {
+				event.preventDefault();
+				event.stopPropagation();
+				if(sourceButton.disabled) return;
+				sourceButton.dispatchEvent(new MouseEvent('click', {
+					bubbles: true,
+					cancelable: true,
+					composed: true,
+					view: window
+				}));
+				window.setTimeout(() => {
+					const slides = this.#getSlidesArray();
+					const nextSourceSlide = slides[this.#index];
+					if(nextSourceSlide) this.#renderActiveSlide(nextSourceSlide);
+				}, 0);
+			});
+		});
 	}
 
 	#shouldCloseFromEvent(event)
@@ -308,6 +423,7 @@ class LvLightbox
 		};
 
 		const onPointerDown = (e) => {
+			if(e.target && e.target.closest && e.target.closest('a,button,input,textarea,select,label')) return;
 			if(e.button !== undefined && e.button !== 0) return;
 			pointerId = e.pointerId;
 			startX = e.clientX;
@@ -339,14 +455,13 @@ class LvLightbox
 			target.releasePointerCapture?.(e.pointerId);
 			const threshold = Math.min(Math.max(target.clientWidth * 0.33, 120), 420);
 			const farEnough = swipeActive && Math.abs(dx) >= threshold && Math.abs(dx) > Math.abs(dy);
-			const targetIndex = this.#index + (dx < 0? 1: -1);
-			const slides = this.#getSlidesArray();
-			if(farEnough && targetIndex >= 0 && targetIndex < slides.length)
+			const direction = dx < 0 ? 1 : -1;
+			if(farEnough)
 			{
 				target.style.transition = 'transform 220ms ease, opacity 220ms ease';
 				target.style.transform = `translateX(${dx < 0? -220: 220}px)`;
 				target.style.opacity = '0';
-				window.setTimeout(() => this.#setIndex(targetIndex), 170);
+				window.setTimeout(() => this.#go(direction), 170);
 			}
 			else resetVisual();
 			swipeActive = false;
@@ -372,12 +487,43 @@ class LvLightbox
 		};
 	}
 
+	#attachWheel(target)
+	{
+		if(!target) return null;
+		const threshold = 56;
+		const normalizeWheelDelta = (event) => {
+			const deltaX = event.deltaMode === 1? event.deltaX * 16: event.deltaMode === 2? event.deltaX * window.innerWidth * 0.85: event.deltaX;
+			const deltaY = event.deltaMode === 1? event.deltaY * 16: event.deltaMode === 2? event.deltaY * window.innerWidth * 0.85: event.deltaY;
+			return Math.abs(deltaX) >= Math.abs(deltaY)? deltaX: (event.shiftKey? deltaY: 0);
+		};
+
+		const onWheel = (e) => {
+			const primaryDelta = normalizeWheelDelta(e);
+			if(!primaryDelta) return;
+			e.preventDefault();
+			this.#wheelAccumX += primaryDelta;
+			if(Math.abs(this.#wheelAccumX) < threshold) return;
+			const direction = this.#wheelAccumX > 0 ? 1 : -1;
+			this.#wheelAccumX = 0;
+			this.#animateGo(direction);
+		};
+
+		target.addEventListener('wheel', onWheel, {passive: false});
+		return () => {
+			target.removeEventListener('wheel', onWheel);
+			this.#wheelAccumX = 0;
+			this.#wheelNavigateLock = false;
+		};
+	}
+
 	#teardownActiveSlide()
 	{
 		this.#titleCleanup?.();
 		this.#titleCleanup = null;
 		this.#swipeCleanup?.();
 		this.#swipeCleanup = null;
+		this.#wheelCleanup?.();
+		this.#wheelCleanup = null;
 		this.#contentHost?.replaceChildren();
 		this.#getMediaBounds = null;
 		this.#getKeepRects = null;
@@ -490,20 +636,26 @@ customElements.define('lv-code', LvCode);
 
 class LvCarousel extends HTMLElement
 {
-	#scrollEl;
-	#slides;
-	#dots;
+	#scrollEl = null;
+	#viewport = null;
+	#dots = null;
+	#slides = [];
 	#activeIndex = 0;
-	#onScroll;
-	#onPointerDown;
-	#onFullscreenClick;
 	#dragMoved = false;
 	#dragStartX = 0;
 	#mediaOverlay = null;
+	#onScroll = null;
+	#onPointerDown = null;
+	#onFullscreenClick = null;
+	#onKeyDown = null;
+	#fullscreenPressPointerId = null;
+	#fullscreenPressSlide = null;
+	#resizeObserver = null;
 
 	connectedCallback()
 	{
 		this.classList.add('lv-carousel');
+		if(!this.hasAttribute('tabindex')) this.tabIndex = 0;
 
 		if(this.querySelector(':scope > .lv-carousel__viewport')) return;
 
@@ -552,6 +704,7 @@ class LvCarousel extends HTMLElement
 		this.replaceChildren(viewport, dots, arrows);
 
 		this.#scrollEl = track;
+		this.#viewport = viewport;
 		this.#slides = slides;
 		this.#dots = dots;
 
@@ -564,22 +717,47 @@ class LvCarousel extends HTMLElement
 				onIndexChange: (index) => {
 					if(this.#activeIndex === index) return;
 					this.scrollToIndex(index);
+				},
+				onNavigate: (delta) => this.#moveLightbox(delta)
+			});
+			this.#scrollEl.addEventListener('pointerdown', (e) => {
+				if(e.target && e.target.closest && e.target.closest('a,button,input,textarea,select,label'))
+				{
+					this.#fullscreenPressPointerId = null;
+					this.#fullscreenPressSlide = null;
+					return;
 				}
+				const target = e.target instanceof Element ? e.target : null;
+				const slide = target?.closest?.('.lv-carousel__slide') || null;
+				const img = target?.closest?.('img') || null;
+				this.#fullscreenPressPointerId = e.pointerId ?? null;
+				this.#fullscreenPressSlide = img && slide ? slide : null;
 			});
 			this.#onFullscreenClick = (e) => {
+				if(this.#fullscreenPressPointerId !== (e.pointerId ?? null)) return;
+				const startedSlide = this.#fullscreenPressSlide;
+				this.#fullscreenPressPointerId = null;
+				this.#fullscreenPressSlide = null;
 				if(e.button !== undefined && e.button !== 0) return;
 				const underPointer = document.elementFromPoint(e.clientX, e.clientY);
 				const img = underPointer && underPointer.closest? underPointer.closest('img'): null;
 				if(!img) return;
 				if(this.#dragMoved) return;
-				this.openFullscreenFromSlide(img.closest('.lv-carousel__slide'));
+				const slide = img.closest('.lv-carousel__slide');
+				if(!startedSlide || !slide || slide !== startedSlide) return;
+				this.openFullscreenFromSlide(slide);
 			};
 			this.#scrollEl.addEventListener('pointerup', this.#onFullscreenClick);
+			this.#scrollEl.addEventListener('pointercancel', () => {
+				this.#fullscreenPressPointerId = null;
+				this.#fullscreenPressSlide = null;
+			});
 		}
 
 		this.renderDots();
 		this.#activeIndex = 0;
 		this.updateActive();
+		this.#updateUnderfilledState();
 
 		this.#onScroll = () => {
 			window.clearTimeout(this.#onScroll.t);
@@ -617,6 +795,19 @@ class LvCarousel extends HTMLElement
 		};
 
 		this.#scrollEl.addEventListener('pointerdown', this.#onPointerDown);
+		this.#onKeyDown = (e) => {
+			if(e.key === 'ArrowLeft')
+			{
+				e.preventDefault();
+				this.scrollBySlides(-1);
+			}
+			else if(e.key === 'ArrowRight')
+			{
+				e.preventDefault();
+				this.scrollBySlides(1);
+			}
+		};
+		this.addEventListener('keydown', this.#onKeyDown);
 		this.#scrollEl.addEventListener('pointermove', (e) => {
 			if(!isDown) return;
 			e.preventDefault();
@@ -626,6 +817,14 @@ class LvCarousel extends HTMLElement
 		});
 		window.addEventListener('pointerup', stopDrag);
 		window.addEventListener('pointercancel', stopDrag);
+		if('ResizeObserver' in window)
+		{
+			this.#resizeObserver = new ResizeObserver(() => this.#updateUnderfilledState());
+			this.#resizeObserver.observe(this.#viewport);
+			this.#resizeObserver.observe(this.#scrollEl);
+			for(const slide of this.#slides)
+				this.#resizeObserver.observe(slide);
+		}
 		resetScrollX();
 	}
 
@@ -635,8 +834,27 @@ class LvCarousel extends HTMLElement
 		if(this.#onScroll) this.#scrollEl.removeEventListener('scroll', this.#onScroll);
 		if(this.#onPointerDown) this.#scrollEl.removeEventListener('pointerdown', this.#onPointerDown);
 		if(this.#onFullscreenClick) this.#scrollEl.removeEventListener('pointerup', this.#onFullscreenClick);
+		if(this.#onKeyDown) this.removeEventListener('keydown', this.#onKeyDown);
+		this.#resizeObserver?.disconnect();
+		this.#resizeObserver = null;
 		this.#mediaOverlay?.destroy();
 		this.#mediaOverlay = null;
+	}
+
+	#updateUnderfilledState()
+	{
+		if(!this.#scrollEl || !this.#viewport) return;
+		const isBleedFull = this.getAttribute('bleed') === 'full';
+		if(!isBleedFull)
+		{
+			this.classList.remove('is-underfilled');
+			return;
+		}
+		const viewportWidth = this.#viewport.clientWidth;
+		const contentWidth = this.#scrollEl.scrollWidth;
+		const isUnderfilled = viewportWidth > 0 && contentWidth <= viewportWidth + 1;
+		this.classList.toggle('is-underfilled', isUnderfilled);
+		if(isUnderfilled) this.#scrollEl.scrollLeft = 0;
 	}
 
 	openFullscreenFromSlide(slideEl)
@@ -686,7 +904,51 @@ class LvCarousel extends HTMLElement
 
 	scrollBySlides(delta)
 	{
-		this.scrollToIndex(this.#activeIndex + delta);
+		const nextIndex = this.#activeIndex + delta;
+		if(nextIndex >= 0 && nextIndex < this.#slides.length)
+		{
+			this.scrollToIndex(nextIndex);
+			return;
+		}
+
+		if(this.#navigateToLinkedCarousel(delta, false)) return;
+		this.scrollToIndex(nextIndex);
+	}
+
+	#moveLightbox(delta)
+	{
+		const nextIndex = this.#indexForLightbox() + delta;
+		if(nextIndex >= 0 && nextIndex < this.#slides.length)
+			return this.#mediaOverlay?.open(nextIndex);
+		this.#navigateToLinkedCarousel(delta, true);
+	}
+
+	#indexForLightbox()
+	{
+		return this.#activeIndex;
+	}
+
+	#navigateToLinkedCarousel(delta, openFullscreen)
+	{
+		const groupName = this.getAttribute('group');
+		if(!groupName) return false;
+		const siblings = Array.from(document.querySelectorAll(`lv-carousel[group="${CSS.escape(groupName)}"]`));
+		const currentIndex = siblings.indexOf(this);
+		if(currentIndex < 0) return false;
+		const targetCarousel = siblings[currentIndex + (delta > 0? 1: -1)];
+		if(!(targetCarousel instanceof LvCarousel)) return false;
+		const targetIndex = delta > 0? 0: Math.max(0, targetCarousel.#slides.length - 1);
+		if(openFullscreen)
+		{
+			this.#mediaOverlay?.close?.();
+			targetCarousel.openFullscreenIndex(targetIndex);
+		}
+		else
+		{
+			targetCarousel.scrollToIndex(targetIndex);
+			targetCarousel.focus();
+		}
+		return true;
 	}
 
 	syncActiveFromScroll()
@@ -711,3 +973,86 @@ class LvCarousel extends HTMLElement
 	}
 }
 customElements.define('lv-carousel', LvCarousel);
+
+
+class LvTr extends HTMLElement
+{
+	#key = '';
+	#defaultText = '';
+
+	connectedCallback()
+	{
+		this.#key = this.getAttribute('str') || '';
+		if(!this.#defaultText) this.#defaultText = this.textContent || '';
+		this.update();
+	}
+
+	update()
+	{
+		const lang = (window.LvTrLanguage || document.documentElement.lang || 'en').toLowerCase();
+		if(!this.#key)
+		{
+			this.textContent = this.#defaultText;
+			return;
+		}
+		const normalized = lang.split('-')[0];
+		const dict = window.LvTrDict && (window.LvTrDict[lang] || window.LvTrDict[normalized]);
+		const translated = dict && dict[this.#key];
+		this.textContent = typeof translated === 'string' && translated.length? translated: this.#defaultText;
+	}
+}
+
+if(!customElements.get('lv-tr'))
+	customElements.define('lv-tr', LvTr);
+
+function updateAllTr()
+{
+	for(const el of document.querySelectorAll('lv-tr'))
+		el.update?.();
+}
+
+function detectBrowserLanguage()
+{
+	const langs = (typeof navigator !== 'undefined' && Array.isArray(navigator.languages) && navigator.languages.length)
+		? navigator.languages
+		: [typeof navigator !== 'undefined'? navigator.language: 'en'];
+
+	for(const lang of langs)
+	{
+		const lc = (lang || '').toLowerCase();
+		if(lc === 'ru' || lc.startsWith('ru-')) return 'ru';
+	}
+	return 'en';
+}
+
+window.LvSetLang = (lang) => {
+	window.LvTrLanguage = lang;
+	document.documentElement.lang = lang;
+	updateAllTr();
+};
+
+function initParallax()
+{
+	const enabled = document.body?.getAttribute('data-lv-parallax');
+	if(!enabled) return;
+
+	const strength = Number(enabled) || 1;
+	const apply = () => {
+		const y = window.scrollY || 0;
+		document.body.style.setProperty('--lv-bg-parallax-y', `${Math.round(y * 0.22 * strength)}px`);
+	};
+	apply();
+	window.addEventListener('scroll', apply, { passive: true });
+}
+
+window.LvInit = () => {
+	if(!window.LvTrLanguage)
+		window.LvTrLanguage = detectBrowserLanguage() || document.documentElement.lang || 'en';
+
+	document.documentElement.lang = window.LvTrLanguage;
+	updateAllTr();
+	initParallax();
+};
+
+if(typeof window !== 'undefined')
+	window.LvInit?.();
